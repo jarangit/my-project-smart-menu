@@ -12,19 +12,11 @@ datasource db {
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
+      relationMode = "prisma"
+
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
 
 // Necessary for Next auth
 model Account {
@@ -34,11 +26,11 @@ model Account {
     provider          String
     providerAccountId String
     refresh_token     String? @db.Text
-    access_token      String? // @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? // @db.Text
+    id_token          String? @db.Text
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -54,14 +46,15 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String      @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?     @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+    // posts         Post[]
+    restaurant    Restaurant?
 }
 
 model VerificationToken {
@@ -70,4 +63,49 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Restaurant {
+    id         Int        @id @default(autoincrement())
+    name       String
+    owner      User       @relation(fields: [ownerId], references: [id])
+    ownerId    String     @unique // relation scalar field (used in the `@relation` attribute above)
+    catefories Category[]
+    menus      Menu[]
+    neats      Meat[]
+    Topping    Topping[]
+}
+
+model Category {
+    id           Int         @id @default(autoincrement())
+    name         String
+    Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+    restaurantId Int?
+}
+
+model Menu {
+    id           Int         @id @default(autoincrement())
+    name         String
+    Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+    restaurantId Int?
+    Meat         Meat?       @relation(fields: [meatId], references: [id])
+    meatId       Int?
+    Topping      Topping?    @relation(fields: [toppingId], references: [id])
+    toppingId    Int?
+}
+
+model Meat {
+    id           Int         @id @default(autoincrement())
+    name         String
+    Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+    restaurantId Int?
+    menus        Menu[]
+}
+
+model Topping {
+    id           Int         @id @default(autoincrement())
+    name         String
+    Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+    restaurantId Int?
+    menus        Menu[]
 }
