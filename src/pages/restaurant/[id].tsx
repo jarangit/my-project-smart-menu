@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { api } from '~/utils/api';
+import withAuth from '~/utils/withAuth';
 
 type Props = {}
 
@@ -16,18 +17,12 @@ const RestaurantPage = ({ }) => {
   const { data: sessionData } = useSession()
   const userId = sessionData?.user.id
   const createRestaurantMutation = api.restaurant.create.useMutation()
-  // const onGetUser = async () => {
-  //   const res: any = await fetchOneUser.refetch()
-  //   if (res) {
-  //     setUserData(res?.data)
-  //   }
-  // }
+  const { data: restaurantData, isLoading } = api.restaurant.getOne.useQuery({ id: userId as "" })
 
-  const onCreateRestaurant = async (name: string, userId: number) => {
+  const onCreateRestaurant = async (name: string) => {
     try {
       await createRestaurantMutation.mutateAsync({
         name: name,
-        userId: userId
       })
     } catch (error) {
       console.log(error)
@@ -35,6 +30,7 @@ const RestaurantPage = ({ }) => {
     }
     return
   }
+
   // useEffect(() => {
   //   void onGetUser()
   // }, [])
@@ -42,17 +38,32 @@ const RestaurantPage = ({ }) => {
   return (
     <div>
       <div>
-        <div>
-          ทดสอบ
-        </div>
-        <strong>Create Restaurant</strong>
-        <div>
-          <input type="text" placeholder='name' />
-          <button onClick={() => onCreateRestaurant('jr shop', parseFloat(userId as ''))}>Create</button>
-        </div>
+        {restaurantData ? (
+          <div>
+            <div className='text-2xl font-bold uppercase'>{restaurantData.name}</div>
+            <div>
+              <strong>Update Restaurant</strong>
+              <div>
+                <input type="text" placeholder='name' />
+                <button onClick={() => onCreateRestaurant('jr shop')}>Update</button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div>
+              <strong>Create Restaurant</strong>
+              <div>
+                <input type="text" placeholder='name' />
+                <button onClick={() => onCreateRestaurant('jr shop',)}>Create</button>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   )
 }
 
-export default RestaurantPage
+export default withAuth(RestaurantPage)

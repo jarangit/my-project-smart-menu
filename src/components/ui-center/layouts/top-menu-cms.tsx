@@ -7,15 +7,13 @@ import React, { useState } from 'react'
 import Row from '../molecules/row'
 
 
-const Menu = () => {
+const TopMenuCMS = () => {
   const { data: sessionData } = useSession()
   return (
     <div>
       {/* nav */}
-      <div className="p-6 bg-black text-white">
+      <div className="p-6 border-b-2">
         <Row className="flex  justify-end gap-6">
-          <Link href={'/'}>Home</Link>
-          <Link href={`/restaurant/${sessionData?.user.id}`}>My Restaurant</Link>
           <div>
             {sessionData ? (
               <Row gap={4}>
@@ -32,4 +30,4 @@ const Menu = () => {
   )
 }
 
-export default Menu
+export default TopMenuCMS

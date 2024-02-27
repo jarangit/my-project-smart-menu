@@ -7,12 +7,22 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { date } from "zod";
 
 import { api } from "~/utils/api";
 
 type Props = {}
 export default function Home({ }) {
+  const { data: sessionData ,status } = useSession()
+  const { push } = useRouter()
 
+  if(status === "loading"){
+    return <div>Loading</div>
+  }
+  if (sessionData) {
+    void push('/dashboard')
+  } 
   return (
     <>
       <Head>

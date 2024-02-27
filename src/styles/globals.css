@@ -6,11 +6,17 @@
 
 body{
   font-family: "Noto Sans Thai", sans-serif;
+  background-color: rgb(98, 98, 98);
 }
+.my-container-outside-cms{
+  width: 100%;
+  max-width: 1900px;
+  margin: 0 auto;
 
+}
 /* button */
 button {
-  background-color: rgb(255, 217, 0);
+  background-color: rgb(255, 199, 31);
   color: black;
   font-weight: bold;
   padding: 5px 20px;

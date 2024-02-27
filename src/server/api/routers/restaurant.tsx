@@ -24,10 +24,19 @@ export const restaurantRouter = createTRPCRouter({
   //       },
   //     });
   //   }),
+  getOne: publicProcedure.input(
+    z.object({ id: z.string() })
+  ).query(async ({ ctx, input }) => {
+    const res = await ctx.db.restaurant.findUnique({
+      where: {
+        ownerId: input.id
+      }
+    })
+    return res
+  }),
   create: publicProcedure.input(
     z.object({
       name: z.string(),
-      userId: z.number(),
     })
   ).mutation(async ({ ctx, input }) => {
     const userId = ctx.session?.user.id
