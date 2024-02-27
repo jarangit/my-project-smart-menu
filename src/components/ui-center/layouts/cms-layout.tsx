@@ -5,7 +5,7 @@ type Props = {
   children: React.ReactNode
 }
 
-const Layout = ({ children }: Props) => {
+const CMSLayout = ({ children }: Props) => {
   return (
     <div>
       <Menu />
@@ -14,4 +14,4 @@ const Layout = ({ children }: Props) => {
   )
 }
 
-export default Layout
+export default CMSLayout

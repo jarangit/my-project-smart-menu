@@ -4,15 +4,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/ban-types */
+import { useSession } from 'next-auth/react';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { api } from '~/utils/api';
 
 type Props = {}
 
-const RestaurantPage = ({}) => {
+const RestaurantPage = ({ }) => {
   const [userData, setUserData] = useState<any>()
-  const userId = 1
+  const { data: sessionData } = useSession()
+  const userId = sessionData?.user.id
   const createRestaurantMutation = api.restaurant.create.useMutation()
   // const onGetUser = async () => {
   //   const res: any = await fetchOneUser.refetch()
@@ -40,10 +42,13 @@ const RestaurantPage = ({}) => {
   return (
     <div>
       <div>
+        <div>
+          ทดสอบ
+        </div>
         <strong>Create Restaurant</strong>
         <div>
           <input type="text" placeholder='name' />
-          <button onClick={() => onCreateRestaurant('jr shop', userId)}>Create</button>
+          <button onClick={() => onCreateRestaurant('jr shop', parseFloat(userId as ''))}>Create</button>
         </div>
       </div>
     </div>
