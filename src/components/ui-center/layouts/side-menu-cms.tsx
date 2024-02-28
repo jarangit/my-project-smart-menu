@@ -76,12 +76,12 @@ const SideMenuCMS = (props: Props) => {
         </Column>
         <Column gap={6} className='pt-6'>
           <div >
-            <Link href={'/'}>
+            <Link href={'/my-account'}>
               <div className={`${styleText}`}>My Account</div>
             </Link>
           </div>
           <div >
-            <Link href={'/'}>
+            <Link href={'/my-qr'}>
               <div className={`${styleText}`}>Logout</div>
             </Link>
           </div>

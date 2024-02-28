@@ -7,18 +7,28 @@
 import { useSession } from 'next-auth/react';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { setShowLoading } from '~/app-state/redux/features/ui-state.slice';
 import { api } from '~/utils/api';
 import withAuth from '~/utils/withAuth';
 
 type Props = {}
 
 const RestaurantPage = ({ }) => {
+  const dispatch = useDispatch()
   const [userData, setUserData] = useState<any>()
   const { data: sessionData } = useSession()
   const userId = sessionData?.user.id
   const createRestaurantMutation = api.restaurant.create.useMutation()
   const { data: restaurantData, isLoading } = api.restaurant.getOne.useQuery({ id: userId as "" })
 
+  if (isLoading) {
+    dispatch(setShowLoading(true))
+  } else {
+    dispatch(setShowLoading(false))
+  }
+
+  
   const onCreateRestaurant = async (name: string) => {
     try {
       await createRestaurantMutation.mutateAsync({

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import TopMenuCMS from './top-menu-cms'
 import SideMenuCMS from './side-menu-cms'
 import { TbSquareToggle } from "react-icons/tb";
+import Loading from '../atoms/loading';
 type Props = {
   children: React.ReactNode
 }
@@ -24,6 +25,7 @@ const CMSLayout = ({ children }: Props) => {
           </div>
         </div>
       </div>
+      <Loading />
     </div>
   )
 }

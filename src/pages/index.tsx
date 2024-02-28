@@ -8,21 +8,26 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 import { date } from "zod";
+import { setShowLoading } from "~/app-state/redux/features/ui-state.slice";
 
 import { api } from "~/utils/api";
 
 type Props = {}
 export default function Home({ }) {
-  const { data: sessionData ,status } = useSession()
+  const { data: sessionData, status } = useSession()
   const { push } = useRouter()
-
-  if(status === "loading"){
+  const dispatch = useDispatch()
+  if (status === "loading") {
+    dispatch(setShowLoading(true))
     return <div>Loading</div>
+  } else {
+    dispatch(setShowLoading(false))
   }
   if (sessionData) {
     void push('/dashboard')
-  } 
+  }
   return (
     <>
       <Head>
