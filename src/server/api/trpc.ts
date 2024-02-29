@@ -12,7 +12,7 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type Session } from "next-auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
-
+import { s3 } from './AWS/s3'
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
 
@@ -42,6 +42,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
     db,
+    s3,
   };
 };
 

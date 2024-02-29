@@ -74,10 +74,10 @@ model Restaurant {
 }
 
 model Category {
-    id           Int          @id @default(autoincrement())
-    name         String
-    menu         Menu[]
-    Restaurant   Restaurant[]
+    id         Int          @id @default(autoincrement())
+    name       String
+    menu       Menu[]
+    Restaurant Restaurant[]
 }
 
 model Menu {
@@ -94,15 +94,22 @@ model Menu {
 }
 
 model Meat {
-    id           Int         @id @default(autoincrement())
-    name         String
-    menus        Menu[]
-    Restaurant   Restaurant[]
+    id         Int          @id @default(autoincrement())
+    name       String
+    menus      Menu[]
+    Restaurant Restaurant[]
 }
 
 model Topping {
-    id           Int         @id @default(autoincrement())
-    name         String
-    menus        Menu[]
-    Restaurant   Restaurant[]
+    id         Int          @id @default(autoincrement())
+    name       String
+    menus      Menu[]
+    Restaurant Restaurant[]
+}
+
+model ImageStores {
+    id   Int    @id @default(autoincrement())
+    key  String
+    url  String
+    type String
 }
