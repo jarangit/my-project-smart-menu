@@ -69,5 +69,36 @@ export const restaurantRouter = createTRPCRouter({
       return restaurant
     }
   }),
+  update: publicProcedure
+    .input(z.object({
+      id: z.string(),
+      name: z.string()
+    })).mutation(async ({ ctx, input }) => {
+      const userId = ctx.session?.user.id
+      const findRestaurant = await ctx.db.restaurant.findUnique({
+        where: {
+          id: input.id
+        }
+      })
+      if (!userId || userId != findRestaurant?.ownerId) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Update data error ',
+          cause: '',
+        });
+      }
+      console.log('data restaurant', findRestaurant)
+      console.log('user id ', userId)
+      // const updated = await ctx.db.restaurant.update({
+      //   where: {
+      //     id: input.id
+      //   },
+      //   data: {
+      //     name: input.name
+      //   }
+      // })
+      // return updated
+
+    })
 
 });

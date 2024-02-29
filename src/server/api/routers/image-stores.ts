@@ -2,11 +2,25 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/*@typescript-eslint/no-explicit-any */
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { env } from "~/env";
 
 export const imageStoresRouter = createTRPCRouter({
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session?.user.id
+    if (userId) {
+      const data = await ctx.db.imageStores.findMany()
+      const mapData = data.map((item: any) => {
+        return {
+          ...item,
+          url: !item.url.startsWith('https://') ? `/${item.url}` : item.url,
+        }
+      })
+      return mapData
+    }
+  }),
   create: publicProcedure
     .input(
       z.object({
