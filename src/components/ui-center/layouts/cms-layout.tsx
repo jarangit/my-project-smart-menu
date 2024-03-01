@@ -10,15 +10,15 @@ type Props = {
 const CMSLayout = ({ children }: Props) => {
   const [isShowSideMenu, setIsShowSideMenu] = useState(true)
   return (
-    <div>
+    <div className=''>
       <TopMenuCMS />
-      <div className='flex min-h-screen my-container-outside-cms'>
-        <div className={`${isShowSideMenu ? 'w-0 md:w-1/6' : 'w-0'} overflow-hidden transition-all border-r-2`}>
+      <div className='flex my-container-outside-cms'>
+        <div className={`${isShowSideMenu ? 'w-0 md:w-1/6' : 'w-0'} overflow-hidden transition-all border-r-2 max-h-[90vh]`}>
           <SideMenuCMS />
         </div>
-        <div className={`${isShowSideMenu ? 'w-full md:w-5/6' : 'w-full'}  transition-all p-10 relative`}>
+        <div className={`${isShowSideMenu ? 'w-full md:w-5/6' : 'w-full'}  transition-all p-10 pt-3 relative max-h-[90vh] border overflow-y-scroll`}>
           <div>
-            <div className='absolute top-3 left-3 cursor-pointer text-gray-700' onClick={() => setIsShowSideMenu(!isShowSideMenu)}>
+            <div className='absolute top-3 left-1 cursor-pointer text-gray-700' onClick={() => setIsShowSideMenu(!isShowSideMenu)}>
               <TbSquareToggle size={25} />
             </div>
             {children}
