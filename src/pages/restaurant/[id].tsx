@@ -29,7 +29,7 @@ const mockDataCreate = {
   facebook: 'facebook',
   lineId: 'line',
   googleMapUrl: 'google-map.url',
-  phone: 0,
+  phone: "12345678",
 }
 const mockDataUpdate = {
   name: 'Mala food update',
