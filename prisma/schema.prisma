@@ -83,7 +83,7 @@ model Category {
 model Menu {
     id                 Int         @id @default(autoincrement())
     name               String
-    namprofileImageUrl String
+    profileImageUrl String
     facebook           String
     lineId             String
     googleMapUrl       String

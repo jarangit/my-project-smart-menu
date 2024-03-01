@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,7 +16,14 @@ import { api } from '~/utils/api';
 import withAuth from '~/utils/withAuth';
 
 type Props = {}
-
+const mockDataCreate = {
+  name: '',
+  profileImageUrl: '',
+  facebook: '',
+  lineId: '',
+  googleMapUrl: '',
+  phone: 0
+}
 const RestaurantPage = ({ }) => {
   const dispatch = useDispatch()
   const [userData, setUserData] = useState<any>()
@@ -23,6 +31,7 @@ const RestaurantPage = ({ }) => {
   const userId = sessionData?.user.id
   const createRestaurantMutation = api.restaurant.create.useMutation()
   const { data: restaurantData, isLoading } = api.restaurant.getOne.useQuery({ id: userId as "" })
+  console.log('%cMyProject%cline:33%crestaurantData', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(229, 187, 129);padding:3px;border-radius:2px', restaurantData)
   const updateRestaurantMutation = api.restaurant.update.useMutation()
   if (isLoading) {
     dispatch(setShowLoading(true))
@@ -31,14 +40,12 @@ const RestaurantPage = ({ }) => {
   }
 
 
-  const onCreateRestaurant = async (name: string) => {
+  const onCreateRestaurant = async (data: any) => {
+    console.log('%cMyProject%cline:42%cdata', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px', data)
     try {
-      await createRestaurantMutation.mutateAsync({
-        name: name,
-      })
+      await createRestaurantMutation.mutateAsync(data)
     } catch (error) {
       console.log(error)
-
     }
     return
   }
@@ -88,7 +95,7 @@ const RestaurantPage = ({ }) => {
               <strong>Create Restaurant</strong>
               <div>
                 <input type="text" placeholder='name' />
-                <button onClick={() => onCreateRestaurant('jr shop',)}>Create</button>
+                <button onClick={() => onCreateRestaurant(mockDataCreate)}>Create</button>
               </div>
             </div>
           </div>
