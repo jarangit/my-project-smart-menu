@@ -5,6 +5,7 @@ import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import Row from '../molecules/row'
+import Button from '@ui-cms/atomics/button'
 
 
 const TopMenuCMS = () => {
@@ -20,7 +21,7 @@ const TopMenuCMS = () => {
                 <div>
                   {sessionData?.user.name}
                 </div>
-                <button onClick={() => signOut()}>Logout</button>
+                <Button onClick={() => signOut()}>Logout</Button>
               </Row>
             ) : <Link href={`/login`}>Login</Link>}
           </div>

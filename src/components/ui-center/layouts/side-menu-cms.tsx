@@ -59,7 +59,7 @@ const SideMenuCMS = (props: Props) => {
                   <div className={`${styleText}`}>{item.text}</div>
                 </Link>
               ) : (
-                <div>
+                <Column gap={4}>
                   <Link href={item.url} className={`${styleText}`}>{item.text}</Link>
                   {item.subMenu.map((sub, key) => (
                     <div key={key} className='pl-6'>
@@ -68,7 +68,7 @@ const SideMenuCMS = (props: Props) => {
                       </Link>
                     </div>
                   ))}
-                </div>
+                </Column>
               )}
 
             </div>

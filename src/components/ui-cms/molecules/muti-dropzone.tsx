@@ -7,6 +7,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { api } from "~/utils/api";
+import Button from "@ui-cms/atomics/button";
 
 // determines the ideal file part size for multipart upload based on file's total size
 const calculateChunkSize = (fileSize: number) => {
@@ -69,7 +70,6 @@ export const MultipartDropzone = () => {
       // minSize: 1 * 2 ** 20, // 1MB -> S3 limitation
       multiple: true,
       onDropAccepted: (files, event) => {
-        console.log('%cMyProject%cline:68%cfiles', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px', files)
         // const file = files[0] as File;
         for (const item of files) {
           console.log('fetch file')
@@ -178,13 +178,13 @@ export const MultipartDropzone = () => {
         <h4 className="font-semibold text-zinc-400">Files pending upload</h4>
         <ul>{files}</ul>
       </aside>
-      <button
+      <Button
         onClick={() => void handleSubmit()}
         disabled={submitDisabled}
         className="submit-button"
       >
         Upload
-      </button>
+      </Button>
     </div>
   );
 };

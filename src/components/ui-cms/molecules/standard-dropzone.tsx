@@ -7,6 +7,7 @@ import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { api } from "~/utils/api";
 import { env } from "~/env";
+import Button from "@ui-cms/atomics/button";
 
 
 export const StandardDropzone = () => {
@@ -89,7 +90,7 @@ export const StandardDropzone = () => {
         <h4 className="font-semibold text-zinc-400">Files pending upload</h4>
         <ul>{files}</ul>
       </aside>
-      <button
+      <Button
         onClick={() => void handleSubmit()}
         disabled={
           presignedUrl === null || acceptedFiles.length === 0 || submitDisabled
@@ -97,7 +98,7 @@ export const StandardDropzone = () => {
         className="submit-button"
       >
         Upload
-      </button>
+      </Button>
     </section>
   );
 };

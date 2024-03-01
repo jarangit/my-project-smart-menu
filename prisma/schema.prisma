@@ -70,7 +70,7 @@ model Restaurant {
     facebook        String?
     lineId          String?
     googleMapUrl    String?
-    phone           Int?
+    phone           String?
     owner           User       @relation(fields: [ownerId], references: [id])
     ownerId         String     @unique // relation scalar field (used in the `@relation` attribute above)
     menus           Menu[]

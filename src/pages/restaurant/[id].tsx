@@ -10,6 +10,8 @@ import { TRPCClientError } from '@trpc/client';
 import { TRPCError } from '@trpc/server';
 import Column from '@ui-center/molecules/column';
 import Row from '@ui-center/molecules/row';
+import Button from '@ui-cms/atomics/button';
+import Text from '@ui-cms/atomics/text';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link'
@@ -28,6 +30,15 @@ const mockDataCreate = {
   lineId: 'line',
   googleMapUrl: 'google-map.url',
   phone: 0,
+}
+const mockDataUpdate = {
+  name: 'Mala food update',
+  profileImageUrl: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/mock-logo-restaurant.png',
+  coverImage: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/give me the ban 49671e42-4494-488a-8682-d247f47da4be.png',
+  facebook: 'facebook',
+  lineId: 'line',
+  googleMapUrl: 'google-map.url',
+  phone: '0882266023',
 }
 const RestaurantPage = ({ }) => {
   const dispatch = useDispatch()
@@ -64,13 +75,15 @@ const RestaurantPage = ({ }) => {
 
   const onUpdate = async ({
     id,
-    name
-  }: { id: string, name: string }) => {
+    data
+  }: { id: string, data: any }) => {
     try {
-      await updateRestaurantMutation.mutateAsync({
-        id: id,
-        name: name
-      })
+      const payload = {
+        id,
+        ...data,
+      }
+      await updateRestaurantMutation.mutateAsync(payload)
+      await refetch()
     } catch (error) {
       if (error instanceof TRPCClientError) {
         console.log('TRPCError:', error.message);
@@ -89,44 +102,68 @@ const RestaurantPage = ({ }) => {
       <div>
         {restaurantData ? (
           <div>
-            <div className='relative w-full h-[450px] rounded-lg overflow-hidden drop-shadow-lg'>
-              <Image
-                src={restaurantData.coverImage as ''}
-                alt=''
-                fill
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-            <Row className='justify-between !items-end relative -top-24 pl-6'>
-              <Column gap={4} className=''>
-                <div className='relative w-[200px] h-[200px] rounded-full overflow-hidden border-2 drop-shadow-lg'>
-                  <Image
-                    src={restaurantData.profileImageUrl as ''}
-                    alt=''
-                    fill
-                    style={{ objectFit: 'cover' }}
-                  />
+            <div className='relative'>
+              <div className='relative w-full h-[450px] rounded-lg overflow-hidden drop-shadow-lg mb-28'>
+                <Image
+                  src={restaurantData.coverImage as ''}
+                  alt=''
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+              <Row className='justify-between !items-end absolute -bottom-24 pl-6 w-full'>
+                <Column gap={4} className=''>
+                  <div className='relative w-[200px] h-[200px] rounded-full overflow-hidden border-2 drop-shadow-lg'>
+                    <Image
+                      src={restaurantData.profileImageUrl as ''}
+                      alt=''
+                      fill
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div className='text-2xl font-bold uppercase'>{restaurantData.name}</div>
+                </Column>
+                <div>
+                  <Button
+                    onClick={() => deleteRestaurantMutation.mutateAsync({
+                      id: restaurantData.id
+                    })}
+                  >Delete</Button>
                 </div>
-                <div className='text-2xl font-bold uppercase'>{restaurantData.name}</div>
-              </Column>
-              <div>
-                <button
-                  onClick={() => deleteRestaurantMutation.mutateAsync({
-                    id: restaurantData.id
-                  })}
-                >Delete</button>
-              </div>
-            </Row>
-            <div className='border'>
-              <strong>Update Restaurant</strong>
-              <div>
-                <input type="text" placeholder='name' />
-                <button onClick={() => onUpdate({
-                  id: restaurantData.id,
-                  name: 'update name restaurant'
-                })}>Update</button>
-              </div>
+              </Row>
             </div>
+
+            <Column gap={6}>
+              <Column className=''>
+                <Row gap={4}>
+                  <Text value={'name'} className='font-bold' />
+                  <Text value={restaurantData.name as ''} />
+                </Row>
+                <Row gap={4}>
+                  <Text value={'facebook'} className='font-bold' />
+                  <Text value={restaurantData.facebook as ''} />
+                </Row>
+                <Row gap={4}>
+                  <Text value={'lineId'} className='font-bold' />
+                  <Text value={restaurantData.lineId as ''} />
+                </Row>
+                <Row gap={4}>
+                  <Text value={'googleMapUrl'} className='font-bold' />
+                  <Text value={restaurantData.googleMapUrl as ''} />
+                </Row>
+                <Row gap={4}>
+                  <Text value={'phone'} className='font-bold' />
+                  <Text value={restaurantData.phone as string | number} />
+                </Row>
+              </Column>
+              <div className='border'>
+                <strong>Update Restaurant</strong>
+                <div>
+                  <input type="text" placeholder='name' />
+                  <Button onClick={() => onUpdate({ id: restaurantData.id, data: mockDataUpdate })}>Update</Button>
+                </div>
+              </div>
+            </Column>
           </div>
         ) : (
           <div>
@@ -134,7 +171,7 @@ const RestaurantPage = ({ }) => {
               <strong>Create Restaurant</strong>
               <div>
                 <input type="text" placeholder='name' />
-                <button onClick={() => onCreateRestaurant(mockDataCreate)}>Create</button>
+                <Button onClick={() => onCreateRestaurant(mockDataCreate)}>Create</Button>
               </div>
             </div>
           </div>
