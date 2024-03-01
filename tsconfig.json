@@ -26,10 +26,10 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
       "@ui-center/*": ["./src/components/ui-center/*"],
       "@ui-cms/*": ["./src/components/ui-cms/*"],
-      "@ui-landing/*": ["./src/components/ui-landing/*"]
+      "@ui-landing/*": ["./src/components/ui-landing/*"],
+      "~/*": ["./src/*"],
     }
   },
   "include": [

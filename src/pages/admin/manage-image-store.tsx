@@ -14,8 +14,6 @@ const ManageImageStore = (_props: any) => {
   const [dataImages, setDataImages] = useState<any[]>()
   const { data: imageData } = api.imageStores.getAll.useQuery()
 
-
-
   return (
     <div>
       <div>All image </div>

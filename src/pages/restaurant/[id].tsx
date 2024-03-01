@@ -6,6 +6,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { TRPCClientError } from '@trpc/client';
 import { TRPCError } from '@trpc/server';
+import Row from '@ui-center/molecules/row';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -24,6 +25,13 @@ const RestaurantPage = ({ }) => {
   const createRestaurantMutation = api.restaurant.create.useMutation()
   const { data: restaurantData, isLoading } = api.restaurant.getOne.useQuery({ id: userId as "" })
   const updateRestaurantMutation = api.restaurant.update.useMutation()
+  const deleteRestaurantMutation = api.restaurant.delete.useMutation({
+    onSuccess: () => {
+      console.log('deleted')
+      window.location.reload()
+      return
+    }
+  })
   if (isLoading) {
     dispatch(setShowLoading(true))
   } else {
@@ -70,8 +78,17 @@ const RestaurantPage = ({ }) => {
       <div>
         {restaurantData ? (
           <div>
-            <div className='text-2xl font-bold uppercase'>{restaurantData.name}</div>
-            <div>
+            <Row className='justify-between'>
+              <div className='text-2xl font-bold uppercase'>{restaurantData.name}</div>
+              <div>
+                <button
+                  onClick={() => deleteRestaurantMutation.mutateAsync({
+                    id: restaurantData.id
+                  })}
+                >Delete</button>
+              </div>
+            </Row>
+            <div className='border'>
               <strong>Update Restaurant</strong>
               <div>
                 <input type="text" placeholder='name' />
