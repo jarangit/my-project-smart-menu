@@ -63,14 +63,20 @@ model VerificationToken {
 }
 
 model Restaurant {
-    id         String     @id @default(cuid())
-    name       String
-    owner      User       @relation(fields: [ownerId], references: [id])
-    ownerId    String     @unique // relation scalar field (used in the `@relation` attribute above)
-    menus      Menu[]
-    categories Category[]
-    topping    Topping[]
-    meat       Meat[]
+    id              String     @id @default(cuid())
+    name            String?
+    profileImageUrl String?
+    coverImage      String?
+    facebook        String?
+    lineId          String?
+    googleMapUrl    String?
+    phone           Int?
+    owner           User       @relation(fields: [ownerId], references: [id])
+    ownerId         String     @unique // relation scalar field (used in the `@relation` attribute above)
+    menus           Menu[]
+    categories      Category[]
+    topping         Topping[]
+    meat            Meat[]
 }
 
 model Category {
@@ -81,21 +87,17 @@ model Category {
 }
 
 model Menu {
-    id                 Int         @id @default(autoincrement())
-    name               String
-    profileImageUrl String
-    facebook           String
-    lineId             String
-    googleMapUrl       String
-    phone              Int
-    Restaurant         Restaurant? @relation(fields: [restaurantId], references: [id])
-    restaurantId       String?
-    Meat               Meat[]
-    meatId             Int?
-    Topping            Topping[]
-    toppingId          Int?
-    Category           Category?   @relation(fields: [categoryId], references: [id])
-    categoryId         Int?
+    id   Int    @id @default(autoincrement())
+    name String
+
+    Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+    restaurantId String?
+    Meat         Meat[]
+    meatId       Int?
+    Topping      Topping[]
+    toppingId    Int?
+    Category     Category?   @relation(fields: [categoryId], references: [id])
+    categoryId   Int?
 }
 
 model Meat {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -7,8 +8,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { TRPCClientError } from '@trpc/client';
 import { TRPCError } from '@trpc/server';
+import Column from '@ui-center/molecules/column';
 import Row from '@ui-center/molecules/row';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
@@ -18,12 +21,13 @@ import withAuth from '~/utils/withAuth';
 
 type Props = {}
 const mockDataCreate = {
-  name: '',
-  profileImageUrl: '',
-  facebook: '',
-  lineId: '',
-  googleMapUrl: '',
-  phone: 0
+  name: 'Mala food',
+  profileImageUrl: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/mock-logo-restaurant.png',
+  coverImage: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/give me the ban 49671e42-4494-488a-8682-d247f47da4be.png',
+  facebook: 'facebook',
+  lineId: 'line',
+  googleMapUrl: 'google-map.url',
+  phone: 0,
 }
 const RestaurantPage = ({ }) => {
   const dispatch = useDispatch()
@@ -31,13 +35,13 @@ const RestaurantPage = ({ }) => {
   const { data: sessionData } = useSession()
   const userId = sessionData?.user.id
   const createRestaurantMutation = api.restaurant.create.useMutation()
-  const { data: restaurantData, isLoading } = api.restaurant.getOne.useQuery({ id: userId as "" })
-  console.log('%cMyProject%cline:33%crestaurantData', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(229, 187, 129);padding:3px;border-radius:2px', restaurantData)
+  const { data: restaurantData, isLoading, refetch } = api.restaurant.getOne.useQuery({ id: userId as "" })
   const updateRestaurantMutation = api.restaurant.update.useMutation()
   const deleteRestaurantMutation = api.restaurant.delete.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       console.log('deleted')
-      window.location.reload()
+      // window.location.reload()
+      await refetch()
       return
     }
   })
@@ -49,9 +53,9 @@ const RestaurantPage = ({ }) => {
 
 
   const onCreateRestaurant = async (data: any) => {
-    console.log('%cMyProject%cline:42%cdata', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px', data)
     try {
       await createRestaurantMutation.mutateAsync(data)
+      await refetch()
     } catch (error) {
       console.log(error)
     }
@@ -85,8 +89,26 @@ const RestaurantPage = ({ }) => {
       <div>
         {restaurantData ? (
           <div>
-            <Row className='justify-between'>
-              <div className='text-2xl font-bold uppercase'>{restaurantData.name}</div>
+            <div className='relative w-full h-[450px] rounded-lg overflow-hidden drop-shadow-lg'>
+              <Image
+                src={restaurantData.coverImage as ''}
+                alt=''
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+            <Row className='justify-between !items-end relative -top-24 pl-6'>
+              <Column gap={4} className=''>
+                <div className='relative w-[200px] h-[200px] rounded-full overflow-hidden border-2 drop-shadow-lg'>
+                  <Image
+                    src={restaurantData.profileImageUrl as ''}
+                    alt=''
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <div className='text-2xl font-bold uppercase'>{restaurantData.name}</div>
+              </Column>
               <div>
                 <button
                   onClick={() => deleteRestaurantMutation.mutateAsync({

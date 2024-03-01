@@ -38,14 +38,15 @@ export const restaurantRouter = createTRPCRouter({
     z.object({
       name: z.string(),
       profileImageUrl: z.string(),
+      coverImage: z.string(),
       facebook: z.string(),
       lineId: z.string(),
       googleMapUrl: z.string(),
       phone: z.number(),
     })
   ).mutation(async ({ ctx, input }) => {
-    console.log('%cMyProject%cline:46%cinput', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px', input)
     const userId = ctx.session?.user.id
+    const { name, profileImageUrl, facebook, lineId, googleMapUrl, phone, coverImage } = input
     const foundUser = await ctx.db.user.findUnique({
       where: {
         id: userId
@@ -55,7 +56,13 @@ export const restaurantRouter = createTRPCRouter({
     if (foundUser) {
       const restaurant = await ctx.db.restaurant.create({
         data: {
-          ...input,
+          name,
+          profileImageUrl,
+          coverImage,
+          facebook,
+          lineId,
+          googleMapUrl,
+          phone,
           ownerId: foundUser.id
         }
       })
