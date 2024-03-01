@@ -81,16 +81,21 @@ model Category {
 }
 
 model Menu {
-    id           Int         @id @default(autoincrement())
-    name         String
-    Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
-    restaurantId String?
-    Meat         Meat[]
-    meatId       Int?
-    Topping      Topping[]
-    toppingId    Int?
-    Category     Category?   @relation(fields: [categoryId], references: [id])
-    categoryId   Int?
+    id                 Int         @id @default(autoincrement())
+    name               String
+    namprofileImageUrl String
+    facebook           String
+    lineId             String
+    googleMapUrl       String
+    phone              Int
+    Restaurant         Restaurant? @relation(fields: [restaurantId], references: [id])
+    restaurantId       String?
+    Meat               Meat[]
+    meatId             Int?
+    Topping            Topping[]
+    toppingId          Int?
+    Category           Category?   @relation(fields: [categoryId], references: [id])
+    categoryId         Int?
 }
 
 model Meat {
