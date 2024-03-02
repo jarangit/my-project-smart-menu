@@ -11,9 +11,8 @@ type Props = {
 const Grid = ({ children, col, gap, className }: Props) => {
   return (
     <div
-      className={`grid ${col ? `grid-cols-${col}` : 'grid-cols-1'}  ${gap ? `gap-${gap}` : 'gap-1'}       ${
-        className ?? ''
-      }
+      className={`grid ${col ? `grid-cols-${col.toString()}` : 'grid-cols-1'}  ${gap ? `gap-${gap}` : 'gap-1'}       ${className ?? ''
+        }
     `}
     >
       {children}

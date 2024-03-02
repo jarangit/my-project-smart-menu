@@ -87,17 +87,24 @@ model Category {
 }
 
 model Menu {
-    id   Int    @id @default(autoincrement())
-    name String
+    id          Int     @id @default(autoincrement())
+    name        String
+    price       Int
+    isSell      Boolean
+    isPromotion Boolean
+    imageUrl    String
+    isHot       Boolean
+    isNews      Boolean
+    isDiscount  Boolean
+    discount    Int
+    detail      String
 
-    Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
-    restaurantId String?
-    Meat         Meat[]
-    meatId       Int?
-    Topping      Topping[]
-    toppingId    Int?
-    Category     Category?   @relation(fields: [categoryId], references: [id])
-    categoryId   Int?
+    restaurant    Restaurant? @relation(fields: [restaurantId], references: [id])
+    restaurantId  String?
+    meatOptions   Meat[]
+    topingOptions Topping[]
+    category      Category?   @relation(fields: [categoryId], references: [id])
+    categoryId    Int?
 }
 
 model Meat {

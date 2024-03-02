@@ -6,6 +6,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/ban-types */
+/*  eslint-disable @typescript-eslint/prefer-optional-chain */
 import { TRPCClientError } from '@trpc/client';
 import { TRPCError } from '@trpc/server';
 import Column from '@ui-center/molecules/column';
@@ -156,6 +157,26 @@ const RestaurantPage = ({ }) => {
                   <Text value={restaurantData.phone as string | number} />
                 </Row>
               </Column>
+
+              <Row gap={4} className='flex-wraper'>
+                {restaurantData?.menus && restaurantData?.menus?.length ? restaurantData?.menus?.map((item, key) => (
+                  <div key={key}>
+                    <div className='w-fit rounded-lg overflow-hidden'>
+                      <Image
+                        src={item.imageUrl}
+                        alt=''
+                        width={250}
+                        height={250}
+                      />
+                    </div>
+                    <Text value={item.name} />
+                    <Text value={`${item.price} BTH`} />
+                  </div>
+                )) : ''}
+                <div>
+
+                </div>
+              </Row>
               <div className='border'>
                 <strong>Update Restaurant</strong>
                 <div>
