@@ -46,10 +46,10 @@ const RestaurantPage = ({ }) => {
   const [userData, setUserData] = useState<any>()
   const { data: sessionData } = useSession()
   const userId = sessionData?.user.id
-  const createRestaurantMutation = api.restaurant.create.useMutation()
-  const { data: restaurantData, isLoading, refetch } = api.restaurant.getOne.useQuery({ id: userId as "" })
-  const updateRestaurantMutation = api.restaurant.update.useMutation()
-  const deleteRestaurantMutation = api.restaurant.delete.useMutation({
+  const { mutateAsync: createRestaurantMutation, isLoading: loadingCreateRestaurant } = api.restaurant.create.useMutation()
+  const { data: restaurantData, isLoading: loadingDataRestaurant, refetch } = api.restaurant.getOne.useQuery({ id: userId as "" })
+  const { mutateAsync: updateRestaurantMutation, isLoading: loadingUpdateRestaurant } = api.restaurant.update.useMutation()
+  const { mutateAsync: deleteRestaurantMutation, isLoading: loadingDeleteRestaurant } = api.restaurant.delete.useMutation({
     onSuccess: async () => {
       console.log('deleted')
       // window.location.reload()
@@ -57,16 +57,10 @@ const RestaurantPage = ({ }) => {
       return
     }
   })
-  if (isLoading) {
-    dispatch(setShowLoading(true))
-  } else {
-    dispatch(setShowLoading(false))
-  }
-
 
   const onCreateRestaurant = async (data: any) => {
     try {
-      await createRestaurantMutation.mutateAsync(data)
+      await createRestaurantMutation(data)
       await refetch()
     } catch (error) {
       console.log(error)
@@ -83,7 +77,7 @@ const RestaurantPage = ({ }) => {
         id,
         ...data,
       }
-      await updateRestaurantMutation.mutateAsync(payload)
+      await updateRestaurantMutation(payload)
       await refetch()
     } catch (error) {
       if (error instanceof TRPCClientError) {
@@ -94,9 +88,15 @@ const RestaurantPage = ({ }) => {
     }
   }
 
-  // useEffect(() => {
-  //   void onGetUser()
-  // }, [])
+  useEffect(() => {
+    dispatch(setShowLoading(loadingCreateRestaurant || loadingDataRestaurant || loadingDeleteRestaurant || loadingUpdateRestaurant))
+    return
+  }, [
+    loadingCreateRestaurant,
+    loadingDataRestaurant,
+    loadingDeleteRestaurant,
+    loadingUpdateRestaurant
+  ])
 
   return (
     <div>
@@ -126,7 +126,7 @@ const RestaurantPage = ({ }) => {
                 </Column>
                 <div>
                   <Button
-                    onClick={() => deleteRestaurantMutation.mutateAsync({
+                    onClick={() => deleteRestaurantMutation({
                       id: restaurantData.id
                     })}
                   >Delete</Button>
@@ -158,7 +158,7 @@ const RestaurantPage = ({ }) => {
                 </Row>
               </Column>
 
-              <Row gap={4} className='flex-wraper'>
+              <Row gap={4} className='flex-wrap'>
                 {restaurantData?.menus && restaurantData?.menus?.length ? restaurantData?.menus?.map((item, key) => (
                   <div key={key}>
                     <div className='w-fit rounded-lg overflow-hidden'>

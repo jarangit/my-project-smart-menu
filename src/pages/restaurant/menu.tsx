@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/prefer-optional-chain */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/ban-types */
 import Column from "@ui-center/molecules/column";
 import Grid from "@ui-center/molecules/grid";
@@ -6,22 +11,25 @@ import Button from "@ui-cms/atomics/button";
 import Text from "@ui-cms/atomics/text";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setShowLoading } from "~/app-state/redux/features/ui-state.slice";
 import { api } from "~/utils/api";
 import withAuth from "~/utils/withAuth";
 
 type Props = {};
 
 const MenuPage = (props: Props) => {
-  const createMenuApi = api.menu.create.useMutation();
+  const dispatch = useDispatch()
+  const { mutateAsync: mutateCreateMenu, isLoading: loadingCreateMenu } = api.menu.create.useMutation();
   const { data: sessionData } = useSession();
   const {
     data: restaurantData,
-    isLoading,
+    isLoading: loadingRestaurant,
     refetch,
   } = api.restaurant.getOne.useQuery({ id: sessionData?.user.id as "" });
-  const deleteMenuApi = api.menu.delete.useMutation();
-  const updateMenuApi = api.menu.update.useMutation();
+  const { mutateAsync: mutateDeleteMenu, isLoading: loadingDeleteMenu } = api.menu.delete.useMutation();
+  const { mutateAsync: mutateUpdateMenu, isLoading: loadingUpdateMenu } = api.menu.update.useMutation();
   const onCreate = async () => {
     const data = {
       name: "Berger 21",
@@ -36,7 +44,7 @@ const MenuPage = (props: Props) => {
       isNews: false,
       isPromotion: false,
     };
-    await createMenuApi.mutateAsync(data);
+    await mutateCreateMenu(data);
     await refetch();
     return;
   };
@@ -54,7 +62,7 @@ const MenuPage = (props: Props) => {
       isNews: false,
       isPromotion: false,
     };
-    await updateMenuApi.mutateAsync({
+    await mutateUpdateMenu({
       id: menuId,
       ...data,
     });
@@ -63,13 +71,20 @@ const MenuPage = (props: Props) => {
   };
 
   const onDelete = async (menuId: number) => {
-    await deleteMenuApi.mutateAsync({
+    await mutateDeleteMenu({
       menuId: menuId,
     });
     await refetch();
     console.log("deleted menu");
     return;
   };
+
+
+  useEffect(() => {
+    dispatch(setShowLoading(loadingCreateMenu || loadingRestaurant || loadingUpdateMenu || loadingDeleteMenu))
+    return
+  }, [loadingRestaurant, loadingCreateMenu, loadingUpdateMenu, loadingDeleteMenu])
+
 
   return (
     <Column gap={12}>
@@ -81,26 +96,26 @@ const MenuPage = (props: Props) => {
         <Grid col={3} className="grid-cols-4" gap={4}>
           {restaurantData && restaurantData?.menus?.length
             ? restaurantData?.menus?.map((item, key) => (
-                <div key={key} className="col-span-1">
-                  <Column>
-                    <div className="w-fit overflow-hidden rounded-lg">
-                      <Image
-                        src={item.imageUrl}
-                        alt=""
-                        width={250}
-                        height={250}
-                      />
-                    </div>
-                    <Text value={`ID:${item.id}`} />
-                    <Text value={item.name} />
-                    <Text value={`${item.price} BTH`} />
-                    <Column gap={1}>
-                      <Button onClick={() => onUpdate(item.id)}>Update</Button>
-                      <Button onClick={() => onDelete(item.id)}>Delete</Button>
-                    </Column>
+              <div key={key} className="col-span-1">
+                <Column>
+                  <div className="w-fit overflow-hidden rounded-lg">
+                    <Image
+                      src={item.imageUrl}
+                      alt=""
+                      width={250}
+                      height={250}
+                    />
+                  </div>
+                  <Text value={`ID:${item.id}`} />
+                  <Text value={item.name} />
+                  <Text value={`${item.price} BTH`} />
+                  <Column gap={1}>
+                    <Button onClick={() => onUpdate(item.id)}>Update</Button>
+                    <Button onClick={() => onDelete(item.id)}>Delete</Button>
                   </Column>
-                </div>
-              ))
+                </Column>
+              </div>
+            ))
             : ""}
         </Grid>
       ) : (
