@@ -93,6 +93,9 @@ export const menuRouter = createTRPCRouter({
         id: z.number(),
         name: z.string(),
         categoryId: z.number().optional(),
+        toppingOptions: z.array(z.object({
+          id: z.number()
+        })).optional(),
         imageUrl: z.string(),
         price: z.number(),
         discount: z.number(),
@@ -118,6 +121,7 @@ export const menuRouter = createTRPCRouter({
         isPromotion,
         imageUrl,
       } = input;
+      console.log('%cMyProject%cline:123%cinput', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px', input)
       const userId = ctx.session?.user.id;
       if (!userId) {
         return;
@@ -135,6 +139,9 @@ export const menuRouter = createTRPCRouter({
           ...input,
           restaurantId: restaurant?.id,
           categoryId: input.categoryId,
+          toppingOptions: {
+            set: input.toppingOptions
+          }
         },
       });
 
@@ -159,6 +166,7 @@ export const menuRouter = createTRPCRouter({
         },
         include: {
           category: true,
+          toppingOptions: true,
         },
       });
 

@@ -7,19 +7,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
 export const restaurantRouter = createTRPCRouter({
-  // getAll: publicProcedure.query(async ({ ctx }) => {
-  //   console.log('get all users')
-  //   return ''
-  // }),
-  // getOne: publicProcedure
-  //   .input(z.object({ id: z.number() }))
-  //   .query(({ input, ctx }) => {
-  //     return ctx.db.user.findUnique({
-  //       where: {
-  //         id: input.id
-  //       },
-  //     });
-  //   }),
+  
   getOne: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -30,6 +18,7 @@ export const restaurantRouter = createTRPCRouter({
         include: {
           menus: true,
           categories: true,
+          toppings: true,
         },
       });
       return res;
@@ -144,6 +133,8 @@ export const restaurantRouter = createTRPCRouter({
         },
         include: {
           menus: true,
+          categories: true,
+          toppings: true,
         },
       });
       if (!userId || userId != findRestaurant?.ownerId) {

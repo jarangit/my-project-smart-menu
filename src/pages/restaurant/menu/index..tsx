@@ -62,6 +62,10 @@ const MenuPage = (props: Props) => {
       price: 299,
       discount: 0,
       categoryId: 1,
+      toppingOptions: [
+        { id: 2 },
+        { id: 3 },
+      ],
       isDiscount: false,
       detail: "detail",
       isSell: false,
@@ -90,9 +94,9 @@ const MenuPage = (props: Props) => {
     dispatch(
       setShowLoading(
         loadingCreateMenu ||
-          loadingRestaurant ||
-          loadingUpdateMenu ||
-          loadingDeleteMenu,
+        loadingRestaurant ||
+        loadingUpdateMenu ||
+        loadingDeleteMenu,
       ),
     );
     return;
@@ -113,28 +117,28 @@ const MenuPage = (props: Props) => {
         <Grid col={3} className="grid-cols-4" gap={4}>
           {restaurantData && restaurantData?.menus?.length
             ? restaurantData?.menus?.map((item, key) => (
-                <div key={key} className="col-span-1">
-                  <Column>
-                    <Link href={`/restaurant/menu/${item.id}`}>
-                      <div className="w-fit overflow-hidden rounded-lg">
-                        <Image
-                          src={item.imageUrl}
-                          alt=""
-                          width={250}
-                          height={250}
-                        />
-                      </div>
-                      <Text value={`ID:${item.id}`} />
-                      <Text value={item.name} />
-                      <Text value={`${item.price} BTH`} />
-                    </Link>
-                    <Column gap={1}>
-                      <Button onClick={() => onUpdate(item.id)}>Update</Button>
-                      <Button onClick={() => onDelete(item.id)}>Delete</Button>
-                    </Column>
+              <div key={key} className="col-span-1">
+                <Column>
+                  <Link href={`/restaurant/menu/${item.id}`}>
+                    <div className="w-fit overflow-hidden rounded-lg">
+                      <Image
+                        src={item.imageUrl}
+                        alt=""
+                        width={250}
+                        height={250}
+                      />
+                    </div>
+                    <Text value={`ID:${item.id}`} />
+                    <Text value={item.name} />
+                    <Text value={`${item.price} BTH`} />
+                  </Link>
+                  <Column gap={1}>
+                    <Button onClick={() => onUpdate(item.id)}>Update</Button>
+                    <Button onClick={() => onDelete(item.id)}>Delete</Button>
                   </Column>
-                </div>
-              ))
+                </Column>
+              </div>
+            ))
             : ""}
         </Grid>
       ) : (

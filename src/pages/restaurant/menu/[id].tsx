@@ -11,14 +11,13 @@ import React from 'react'
 import { api } from '~/utils/api'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-type Props = {}
+type Props = object
 
-const MenusDetailPage = () => {
+const MenusDetailPage = (props: Props) => {
   const { query } = useRouter()
   const { data: dataMenu } = api.menu.getOne.useQuery({
     id: Number(query.id)
   })
-  console.log('%cMyProject%cline:18%cdataMenu', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px', dataMenu)
 
   return (
     <div>

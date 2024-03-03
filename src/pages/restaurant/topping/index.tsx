@@ -13,40 +13,44 @@ import { api } from "~/utils/api";
 import withAuth from "~/utils/withAuth";
 
 type Props = {};
-
-const CategoryPage = (props: Props) => {
+const mockImage = 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/coffee-drink-with-lots-whipped-cream.jpg'
+const ToppingPage = (props: Props) => {
   const dispatch = useDispatch();
   const { data: sessionData } = useSession();
   const { data: restaurantData, isLoading: loadingRestaurant } =
     api.restaurant.getOne.useQuery({ id: sessionData?.user.id as "" });
-  const { mutateAsync: createCatApi, isLoading: loadingCreateCat } =
-    api.category.create.useMutation({
-      onSuccess: async () => {
-        await refetchDataCat();
-        return;
-      },
-    });
-
-  const { mutateAsync: deleteCat, isLoading: loadingDeleteCat } =
-    api.category.delete.useMutation({
-      onSuccess: async () => {
-        await refetchDataCat();
-        return;
-      },
-    });
 
   const {
-    data: dataCatApi,
-    isLoading: loadingDataCat,
-    refetch: refetchDataCat,
-  } = api.category.getAllByRestaurantId.useQuery({
+    data: dataToppingApi,
+    isLoading: loadingDataTopping,
+    refetch: refetchDataTopping,
+  } = api.topping.getAllByRestaurantId.useQuery({
     id: restaurantData?.id as "",
   });
 
-  const { mutate: updateCatApi, isLoading: loadingUpdateCat } =
-    api.category.update.useMutation({
+
+  const { mutateAsync: createToppingApi, isLoading: loadingCreateTopping } =
+    api.topping.create.useMutation({
       onSuccess: async () => {
-        await refetchDataCat();
+        await refetchDataTopping();
+        return;
+      },
+    });
+
+  const { mutateAsync: deleteTopping, isLoading: loadingDeleteTopping } =
+    api.topping.delete.useMutation({
+      onSuccess: async () => {
+        await refetchDataTopping();
+        return;
+      },
+    });
+
+  console.log('%cMyProject%cline:39%cdataToppingApi', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px', dataToppingApi)
+
+  const { mutate: updateToppingApi, isLoading: loadingUpdateTopping } =
+    api.topping.update.useMutation({
+      onSuccess: async () => {
+        await refetchDataTopping();
         return;
       },
     });
@@ -54,28 +58,28 @@ const CategoryPage = (props: Props) => {
   useEffect(() => {
     dispatch(
       setShowLoading(
-        loadingCreateCat ||
-        loadingDataCat ||
-        loadingDeleteCat ||
-        loadingUpdateCat ||
+        loadingCreateTopping ||
+        loadingDataTopping ||
+        loadingDeleteTopping ||
+        loadingUpdateTopping ||
         loadingRestaurant
       ),
     );
     return;
-  }, [loadingRestaurant, loadingCreateCat, loadingDataCat, loadingDeleteCat, loadingUpdateCat]);
+  }, [loadingRestaurant, loadingCreateTopping, loadingDataTopping, loadingDeleteTopping, loadingUpdateTopping]);
 
   return (
     <div>
-      <Text value={"Categories"} />
+      <Text value={"Toppings"} />
 
       <Column>
-        <Button onClick={() => createCatApi({ name: "Appetizers" })}>
+        <Button onClick={() => createToppingApi({ name: "Whipped Cream", imageUrl: mockImage })}>
           Create
         </Button>
 
         <Row gap={4}>
-          {dataCatApi?.length
-            ? dataCatApi.map((item, key) => (
+          {dataToppingApi?.length
+            ? dataToppingApi.map((item, key) => (
               <div key={key}>
                 <Column gap={1}>
                   <Link href={`/restaurant/category/${item.id}`}>
@@ -83,15 +87,16 @@ const CategoryPage = (props: Props) => {
                   </Link>
                   <Button
                     onClick={() =>
-                      updateCatApi({
+                      updateToppingApi({
                         id: item.id,
                         name: "name cat updated",
+                        imageUrl: mockImage,
                       })
                     }
                   >
                     Update
                   </Button>
-                  <Button onClick={() => deleteCat({ id: item.id })}>
+                  <Button onClick={() => deleteTopping({ id: item.id })}>
                     Delete
                   </Button>
                 </Column>
@@ -104,4 +109,4 @@ const CategoryPage = (props: Props) => {
   );
 };
 
-export default withAuth(CategoryPage);
+export default withAuth(ToppingPage);

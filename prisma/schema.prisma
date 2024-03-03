@@ -75,16 +75,18 @@ model Restaurant {
     ownerId         String     @unique // relation scalar field (used in the `@relation` attribute above)
     menus           Menu[]
     categories      Category[]
-    topping         Topping[]
+    toppings        Topping[]
     meat            Meat[]
+    createdAt       DateTime   @default(now())
 }
 
 model Category {
     id           Int         @id @default(autoincrement())
     name         String
-    menus         Menu[]
+    menus        Menu[]
     restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
     restaurantId String?
+    createdAt    DateTime    @default(now())
 }
 
 model Menu {
@@ -103,9 +105,10 @@ model Menu {
     restaurant    Restaurant? @relation(fields: [restaurantId], references: [id])
     restaurantId  String?
     meatOptions   Meat[]
-    topingOptions Topping[]
+    toppingOptions Topping[]   @relation("MenuToppings")
     category      Category?   @relation(fields: [categoryId], references: [id])
     categoryId    Int?
+    createdAt     DateTime    @default(now())
 }
 
 model Meat {
@@ -114,20 +117,23 @@ model Meat {
     menus        Menu[]
     restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
     restaurantId String?
+    createdAt    DateTime    @default(now())
 }
 
 model Topping {
     id           Int         @id @default(autoincrement())
     name         String
+    imageUrl     String?
     restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
     restaurantId String?
-    Menu         Menu?       @relation(fields: [menuId], references: [id])
-    menuId       Int?
+    menus        Menu[]      @relation("MenuToppings")
+    createdAt    DateTime    @default(now())
 }
 
 model ImageStores {
-    id   Int    @id @default(autoincrement())
-    key  String
-    url  String
-    type String
+    id        Int      @id @default(autoincrement())
+    key       String
+    url       String
+    type      String
+    createdAt DateTime @default(now())
 }
