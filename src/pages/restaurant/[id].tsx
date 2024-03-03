@@ -25,8 +25,8 @@ import withAuth from '~/utils/withAuth';
 type Props = {}
 const mockDataCreate = {
   name: 'Mala food',
-  profileImageUrl: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/mock-logo-restaurant.png',
-  coverImage: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/give me the ban 49671e42-4494-488a-8682-d247f47da4be.png',
+  profileImageUrl: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/mock-logo-caffe (1).png',
+  coverImage: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/Give me the min 99b66e5f-9935-48ac-9ab5-9794fbaed516.png',
   facebook: 'facebook',
   lineId: 'line',
   googleMapUrl: 'google-map.url',
@@ -34,8 +34,8 @@ const mockDataCreate = {
 }
 const mockDataUpdate = {
   name: 'Mala food update',
-  profileImageUrl: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/mock-logo-restaurant.png',
-  coverImage: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/give me the ban 49671e42-4494-488a-8682-d247f47da4be.png',
+  profileImageUrl: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/mock-logo-caffe (1).png',
+  coverImage: 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/Give me the min 99b66e5f-9935-48ac-9ab5-9794fbaed516.png',
   facebook: 'facebook',
   lineId: 'line',
   googleMapUrl: 'google-map.url',

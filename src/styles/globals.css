@@ -6,7 +6,8 @@
 
 body{
   font-family: "Noto Sans Thai", sans-serif;
-  background-color: rgb(98, 98, 98);
+  /* background-color: rgb(98, 98, 98); */
+  /* background-color: rgb(242, 239, 236); */
 }
 .my-container-outside-cms{
   width: 100%;

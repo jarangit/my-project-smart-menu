@@ -34,7 +34,7 @@ const MenuPage = (props: Props) => {
     const data = {
       name: "Berger 21",
       imageUrl:
-        "https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/menu1.jpg",
+        "https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/coffee-drink-with-lots-whipped-cream.jpg",
       price: 99,
       discount: 0,
       isDiscount: false,
@@ -52,7 +52,7 @@ const MenuPage = (props: Props) => {
     const data = {
       name: "Berger updated",
       imageUrl:
-        "https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/menu1.jpg",
+        "https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/coffee-drink-with-lots-whipped-cream.jpg",
       price: 299,
       discount: 0,
       isDiscount: false,
