@@ -128,6 +128,9 @@ export const restaurantRouter = createTRPCRouter({
       const findRestaurant = await ctx.db.restaurant.findUnique({
         where: {
           id: input.id
+        },
+        include: {
+          menus: true
         }
       })
       if (!userId || userId != findRestaurant?.ownerId) {
@@ -143,6 +146,15 @@ export const restaurantRouter = createTRPCRouter({
           id: input.id
         }
       })
+
+      for (const menuItem of findRestaurant.menus) {
+        await ctx.db.menu.delete({
+          where: {
+            id: menuItem.id,
+          }
+        })
+      }
+
       return deleted
     })
 
