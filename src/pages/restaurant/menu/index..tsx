@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { setShowLoading } from "~/app-state/redux/features/ui-state.slice";
 import { api } from "~/utils/api";
 import withAuth from "~/utils/withAuth";
+import category from "../category";
 
 type Props = {};
 
@@ -41,6 +42,7 @@ const MenuPage = (props: Props) => {
         "https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/coffee-drink-with-lots-whipped-cream.jpg",
       price: 99,
       discount: 0,
+      categoryId: 1,
       isDiscount: false,
       detail: "detail",
       isSell: false,
@@ -59,6 +61,7 @@ const MenuPage = (props: Props) => {
         "https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/coffee-drink-with-lots-whipped-cream.jpg",
       price: 299,
       discount: 0,
+      categoryId: 1,
       isDiscount: false,
       detail: "detail",
       isSell: false,

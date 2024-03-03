@@ -1,9 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import category from "~/pages/restaurant/category";
-import { connect } from "http2";
 
-export const menuRouter = createTRPCRouter({
+export const categoryRouter = createTRPCRouter({
   getOne: publicProcedure
     .input(
       z.object({
@@ -16,12 +14,9 @@ export const menuRouter = createTRPCRouter({
         return;
       }
 
-      const data = await ctx.db.menu.findUnique({
+      const data = await ctx.db.category.findUnique({
         where: {
           id: input.id,
-        },
-        include: {
-          category: true,
         },
       });
 
@@ -31,31 +26,10 @@ export const menuRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
-        imageUrl: z.string(),
-        price: z.number(),
-        discount: z.number(),
-        detail: z.string(),
-        isSell: z.boolean(),
-        isPromotion: z.boolean(),
-        isHot: z.boolean(),
-        isNews: z.boolean(),
-        isDiscount: z.boolean(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log("payload", input);
-      const {
-        name,
-        price,
-        discount,
-        detail,
-        isSell,
-        isDiscount,
-        isHot,
-        isNews,
-        isPromotion,
-        imageUrl,
-      } = input;
+      const { name } = input;
       const userId = ctx.session?.user.id;
       if (!userId) {
         return;
@@ -65,59 +39,38 @@ export const menuRouter = createTRPCRouter({
           ownerId: userId,
         },
       });
-      const createMenu = await ctx.db.menu.create({
+      const createCategory = await ctx.db.category.create({
         data: {
           ...input,
           restaurantId: restaurant?.id,
         },
       });
 
-      if (createMenu) {
+      if (createCategory) {
         await ctx.db.restaurant.update({
           where: {
             id: restaurant?.id,
           },
           data: {
-            menus: {
-              connect: { id: createMenu.id },
+            categories: {
+              connect: { id: createCategory.id },
             },
           },
         });
       }
 
-      return createMenu;
+      return createCategory;
     }),
   update: publicProcedure
     .input(
       z.object({
         id: z.number(),
         name: z.string(),
-        categoryId: z.number().optional(),
-        imageUrl: z.string(),
-        price: z.number(),
-        discount: z.number(),
-        detail: z.string(),
-        isSell: z.boolean(),
-        isPromotion: z.boolean(),
-        isHot: z.boolean(),
-        isNews: z.boolean(),
-        isDiscount: z.boolean(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       console.log("payload", input);
-      const {
-        name,
-        price,
-        discount,
-        detail,
-        isSell,
-        isDiscount,
-        isHot,
-        isNews,
-        isPromotion,
-        imageUrl,
-      } = input;
+      const { name } = input;
       const userId = ctx.session?.user.id;
       if (!userId) {
         return;
@@ -127,14 +80,13 @@ export const menuRouter = createTRPCRouter({
           ownerId: userId,
         },
       });
-      const update = await ctx.db.menu.update({
+      const update = await ctx.db.category.update({
         where: {
           id: input.id,
         },
         data: {
           ...input,
           restaurantId: restaurant?.id,
-          categoryId: input.categoryId,
         },
       });
 
@@ -153,12 +105,12 @@ export const menuRouter = createTRPCRouter({
         return;
       }
 
-      const data = await ctx.db.menu.findMany({
+      const data = await ctx.db.category.findMany({
         where: {
           restaurantId: id,
         },
         include: {
-          category: true,
+          menus: true,
         },
       });
 
@@ -167,7 +119,7 @@ export const menuRouter = createTRPCRouter({
   delete: publicProcedure
     .input(
       z.object({
-        menuId: z.number(),
+        id: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -175,9 +127,9 @@ export const menuRouter = createTRPCRouter({
       if (!userId) {
         return;
       }
-      const deleted = await ctx.db.menu.delete({
+      const deleted = await ctx.db.category.delete({
         where: {
-          id: input.menuId,
+          id: input.id,
         },
       });
       return deleted;
