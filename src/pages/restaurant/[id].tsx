@@ -161,16 +161,18 @@ const RestaurantPage = ({ }) => {
               <Row gap={4} className='flex-wrap'>
                 {restaurantData?.menus && restaurantData?.menus?.length ? restaurantData?.menus?.map((item, key) => (
                   <div key={key}>
-                    <div className='w-fit rounded-lg overflow-hidden'>
-                      <Image
-                        src={item.imageUrl}
-                        alt=''
-                        width={250}
-                        height={250}
-                      />
-                    </div>
-                    <Text value={item.name} />
-                    <Text value={`${item.price} BTH`} />
+                    <Link href={`/restaurant/menu/${item.id}`}>
+                      <div className='w-fit rounded-lg overflow-hidden'>
+                        <Image
+                          src={item.imageUrl}
+                          alt=''
+                          width={250}
+                          height={250}
+                        />
+                      </div>
+                      <Text value={item.name} />
+                      <Text value={`${item.price} BTH`} />
+                    </Link>
                   </div>
                 )) : ''}
                 <div>

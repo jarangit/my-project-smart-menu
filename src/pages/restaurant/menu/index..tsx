@@ -11,6 +11,7 @@ import Button from "@ui-cms/atomics/button";
 import Text from "@ui-cms/atomics/text";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setShowLoading } from "~/app-state/redux/features/ui-state.slice";
@@ -97,23 +98,25 @@ const MenuPage = (props: Props) => {
           {restaurantData && restaurantData?.menus?.length
             ? restaurantData?.menus?.map((item, key) => (
               <div key={key} className="col-span-1">
-                <Column>
-                  <div className="w-fit overflow-hidden rounded-lg">
-                    <Image
-                      src={item.imageUrl}
-                      alt=""
-                      width={250}
-                      height={250}
-                    />
-                  </div>
-                  <Text value={`ID:${item.id}`} />
-                  <Text value={item.name} />
-                  <Text value={`${item.price} BTH`} />
-                  <Column gap={1}>
-                    <Button onClick={() => onUpdate(item.id)}>Update</Button>
-                    <Button onClick={() => onDelete(item.id)}>Delete</Button>
+                <Link href={`/restaurant/menu/${item.id}`}>
+                  <Column>
+                    <div className="w-fit overflow-hidden rounded-lg">
+                      <Image
+                        src={item.imageUrl}
+                        alt=""
+                        width={250}
+                        height={250}
+                      />
+                    </div>
+                    <Text value={`ID:${item.id}`} />
+                    <Text value={item.name} />
+                    <Text value={`${item.price} BTH`} />
+                    <Column gap={1}>
+                      <Button onClick={() => onUpdate(item.id)}>Update</Button>
+                      <Button onClick={() => onDelete(item.id)}>Delete</Button>
+                    </Column>
                   </Column>
-                </Column>
+                </Link>
               </div>
             ))
             : ""}

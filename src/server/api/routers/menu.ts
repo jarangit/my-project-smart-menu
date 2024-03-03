@@ -2,6 +2,22 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const menuRouter = createTRPCRouter({
+  getOne: publicProcedure.input((z.object({
+    id: z.number()
+  }))).query(async ({ ctx, input }) => {
+    const userId = ctx.session?.user.id
+    if (!userId) {
+      return
+    }
+
+    const data = await ctx.db.menu.findUnique(({
+      where: {
+        id: input.id
+      }
+    }))
+
+    return data
+  }),
   create: publicProcedure
     .input(
       z.object({
@@ -86,7 +102,7 @@ export const menuRouter = createTRPCRouter({
           restaurantId: restaurant?.id,
         }
       })
-      
+
       return update
     }),
   getAllByRestaurantId: publicProcedure.input(z.object({
