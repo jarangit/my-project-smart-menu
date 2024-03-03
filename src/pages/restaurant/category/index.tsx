@@ -71,7 +71,7 @@ const CategoryPage = (props: Props) => {
         </Button>
 
         <Row gap={4}>
-          {dataCatApi && dataCatApi.length
+          {dataCatApi?.length
             ? dataCatApi.map((item, key) => (
                 <div key={key}>
                   <Column gap={1}>
