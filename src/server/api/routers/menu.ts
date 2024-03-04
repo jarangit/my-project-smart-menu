@@ -32,6 +32,7 @@ export const menuRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         imageUrl: z.string(),
+     
         price: z.number(),
         discount: z.number(),
         detail: z.string(),
@@ -43,19 +44,6 @@ export const menuRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log("payload", input);
-      const {
-        name,
-        price,
-        discount,
-        detail,
-        isSell,
-        isDiscount,
-        isHot,
-        isNews,
-        isPromotion,
-        imageUrl,
-      } = input;
       const userId = ctx.session?.user.id;
       if (!userId) {
         return;
@@ -69,6 +57,21 @@ export const menuRouter = createTRPCRouter({
         data: {
           ...input,
           restaurantId: restaurant?.id,
+          toppingOptions: {
+            create: [
+              {
+                name: "Whipped",
+                price: 5,
+              },
+            ],
+          },
+          meatOptions: {
+            create: [
+              {
+                name: "Chicken",
+              },
+            ],
+          },
         },
       });
 
@@ -93,9 +96,20 @@ export const menuRouter = createTRPCRouter({
         id: z.number(),
         name: z.string(),
         categoryId: z.number().optional(),
-        toppingOptions: z.array(z.object({
-          id: z.number()
-        })).optional(),
+        toppingOptions: z
+          .array(
+            z.object({
+              id: z.number(),
+            }),
+          )
+          .optional(),
+        meatOptions: z
+          .array(
+            z.object({
+              id: z.number(),
+            }),
+          )
+          .optional(),
         imageUrl: z.string(),
         price: z.number(),
         discount: z.number(),
@@ -121,7 +135,6 @@ export const menuRouter = createTRPCRouter({
         isPromotion,
         imageUrl,
       } = input;
-      console.log('%cMyProject%cline:123%cinput', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px', input)
       const userId = ctx.session?.user.id;
       if (!userId) {
         return;
@@ -140,8 +153,11 @@ export const menuRouter = createTRPCRouter({
           restaurantId: restaurant?.id,
           categoryId: input.categoryId,
           toppingOptions: {
-            set: input.toppingOptions
-          }
+            set: input.toppingOptions,
+          },
+          meatOptions: {
+            set: input.meatOptions,
+          },
         },
       });
 

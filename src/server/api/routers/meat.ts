@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const toppingRouter = createTRPCRouter({
+export const meatRouter = createTRPCRouter({
   getOne: publicProcedure
     .input(
       z.object({
@@ -14,7 +14,7 @@ export const toppingRouter = createTRPCRouter({
         return;
       }
 
-      const data = await ctx.db.topping.findUnique({
+      const data = await ctx.db.meat.findUnique({
         where: {
           id: input.id,
         },
@@ -26,8 +26,6 @@ export const toppingRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
-        imageUrl: z.string(),
-        price: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -40,46 +38,42 @@ export const toppingRouter = createTRPCRouter({
           ownerId: userId,
         },
       });
-      const createTopping = await ctx.db.topping.create({
+      const createMeat = await ctx.db.meat.create({
         data: {
           ...input,
           restaurantId: restaurant?.id,
         },
       });
 
-      if (createTopping) {
+      if (createMeat) {
         await ctx.db.restaurant.update({
           where: {
             id: restaurant?.id,
           },
           data: {
-            toppings: {
-              connect: { id: createTopping.id },
+            meats: {
+              connect: { id: createMeat.id },
             },
           },
         });
       }
 
-      return createTopping;
+      return createMeat;
     }),
   update: publicProcedure
     .input(
       z.object({
         id: z.number(),
         name: z.string(),
-        imageUrl: z.string().optional(),
-        price: z.number().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log("payload", input);
-      const { name } = input;
       const userId = ctx.session?.user.id;
       if (!userId) {
         return;
       }
 
-      const update = await ctx.db.topping.update({
+      const update = await ctx.db.meat.update({
         where: {
           id: input.id,
         },
@@ -103,7 +97,7 @@ export const toppingRouter = createTRPCRouter({
         return;
       }
 
-      const data = await ctx.db.topping.findMany({
+      const data = await ctx.db.meat.findMany({
         where: {
           restaurantId: id,
         },
@@ -125,7 +119,7 @@ export const toppingRouter = createTRPCRouter({
       if (!userId) {
         return;
       }
-      const deleted = await ctx.db.topping.delete({
+      const deleted = await ctx.db.meat.delete({
         where: {
           id: input.id,
         },

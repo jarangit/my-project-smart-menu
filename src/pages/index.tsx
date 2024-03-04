@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import Loading from "@ui-center/atoms/loading";
 import Button from "@ui-cms/atomics/button";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
@@ -22,7 +23,7 @@ export default function Home({ }) {
   const dispatch = useDispatch()
   if (status === "loading") {
     dispatch(setShowLoading(true))
-    return <div>Loading</div>
+    return <Loading/>
   } else {
     dispatch(setShowLoading(false))
   }

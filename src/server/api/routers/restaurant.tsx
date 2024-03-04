@@ -7,7 +7,6 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
 export const restaurantRouter = createTRPCRouter({
-  
   getOne: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -19,6 +18,7 @@ export const restaurantRouter = createTRPCRouter({
           menus: true,
           categories: true,
           toppings: true,
+          meats: true,
         },
       });
       return res;
@@ -135,6 +135,7 @@ export const restaurantRouter = createTRPCRouter({
           menus: true,
           categories: true,
           toppings: true,
+          meats: true,
         },
       });
       if (!userId || userId != findRestaurant?.ownerId) {
@@ -144,20 +145,60 @@ export const restaurantRouter = createTRPCRouter({
           cause: "",
         });
       }
-
-      const deleted = await ctx.db.restaurant.delete({
+      await ctx.db.menu.deleteMany({
+        where: {
+          restaurantId: input.id,
+        },
+      });
+      await ctx.db.category.deleteMany({
+        where: {
+          restaurantId: input.id,
+        },
+      });
+      await ctx.db.topping.deleteMany({
+        where: {
+          restaurantId: input.id,
+        },
+      });
+      await ctx.db.meat.deleteMany({
+        where: {
+          restaurantId: input.id,
+        },
+      });
+      const deleted = await ctx.db.restaurant.deleteMany({
         where: {
           id: input.id,
         },
       });
 
-      for (const menuItem of findRestaurant.menus) {
-        await ctx.db.menu.delete({
-          where: {
-            id: menuItem.id,
-          },
-        });
-      }
+      // for (const menuItem of findRestaurant.menus) {
+      //   await ctx.db.menu.delete({
+      //     where: {
+      //       id: menuItem.id,
+      //     },
+      //   });
+      // }
+      // for (const menuItem of findRestaurant.categories) {
+      //   await ctx.db.category.delete({
+      //     where: {
+      //       id: menuItem.id,
+      //     },
+      //   });
+      // }
+      // for (const menuItem of findRestaurant.toppings) {
+      //   await ctx.db.topping.delete({
+      //     where: {
+      //       id: menuItem.id,
+      //     },
+      //   });
+      // }
+      // for (const menuItem of findRestaurant.meats) {
+      //   await ctx.db.meat.delete({
+      //     where: {
+      //       id: menuItem.id,
+      //     },
+      //   });
+      // }
 
       return deleted;
     }),

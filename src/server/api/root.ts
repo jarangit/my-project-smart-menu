@@ -5,6 +5,8 @@ import { imageStoresRouter } from "./routers/image-stores";
 import { menuRouter } from "./routers/menu";
 import { categoryRouter } from "./routers/category";
 import { toppingRouter } from "./routers/topping";
+import { meatRouter } from "./routers/meat";
+import { categoryStoreRouter } from "./routers/category-store";
 
 /**
  * This is the primary router for your server.
@@ -18,6 +20,8 @@ export const appRouter = createTRPCRouter({
   menu: menuRouter,
   category: categoryRouter,
   topping: toppingRouter,
+  meat: meatRouter,
+  categoryStore: categoryStoreRouter,
 });
 
 // export type definition of API

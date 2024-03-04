@@ -16,7 +16,8 @@ import Text from "@ui-cms/atomics/text";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useReducer, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setShowLoading } from "~/app-state/redux/features/ui-state.slice";
 import { api } from "~/utils/api";
@@ -46,6 +47,8 @@ const mockDataUpdate = {
   phone: "0882266023",
 };
 const RestaurantPage = ({}) => {
+  const router = useRouter();
+
   const dispatch = useDispatch();
   const [userData, setUserData] = useState<any>();
   const { data: sessionData } = useSession();
@@ -120,6 +123,7 @@ const RestaurantPage = ({}) => {
     }
   };
 
+  
   useEffect(() => {
     dispatch(
       setShowLoading(
@@ -130,6 +134,7 @@ const RestaurantPage = ({}) => {
           loadingDataCat,
       ),
     );
+
     return;
   }, [
     loadingCreateRestaurant,
@@ -146,25 +151,25 @@ const RestaurantPage = ({}) => {
           <div>
             <div className="relative">
               <div className="relative mb-36 h-[450px] w-full overflow-hidden rounded-lg drop-shadow-lg">
-                <Image
+                {/* <Image
                   src={restaurantData.coverImage as ""}
                   alt=""
                   fill
                   style={{ objectFit: "cover" }}
-                />
+                /> */}
               </div>
               <Row className="absolute -bottom-32 w-full !items-end justify-between">
                 <Column gap={4} className="">
-                 <div className="pl-6">
-                 <div className="relative h-[200px] w-[200px] overflow-hidden rounded-full border-2 drop-shadow-lg">
-                    <Image
+                  <div className="pl-6">
+                    <div className="relative h-[200px] w-[200px] overflow-hidden rounded-full border-2 drop-shadow-lg">
+                      {/* <Image
                       src={restaurantData.profileImageUrl as ""}
                       alt=""
                       fill
                       style={{ objectFit: "cover" }}
-                    />
+                    /> */}
+                    </div>
                   </div>
-                 </div>
                   <div className="text-2xl font-bold uppercase">
                     {restaurantData.name}
                   </div>
@@ -225,12 +230,12 @@ const RestaurantPage = ({}) => {
                       <div key={key}>
                         <Link href={`/restaurant/menu/${item.id}`}>
                           <div className="w-fit overflow-hidden rounded-lg">
-                            <Image
+                            {/* <Image
                               src={item.imageUrl}
                               alt=""
                               width={250}
                               height={250}
-                            />
+                            /> */}
                           </div>
                           <Text value={item.name} />
                           <Text value={`${item.price} BTH`} />

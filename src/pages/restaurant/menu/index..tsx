@@ -63,8 +63,7 @@ const MenuPage = (props: Props) => {
       discount: 0,
       categoryId: 1,
       toppingOptions: [
-        { id: 2 },
-        { id: 3 },
+        { id: 1 },
       ],
       isDiscount: false,
       detail: "detail",
@@ -121,12 +120,12 @@ const MenuPage = (props: Props) => {
                 <Column>
                   <Link href={`/restaurant/menu/${item.id}`}>
                     <div className="w-fit overflow-hidden rounded-lg">
-                      <Image
+                      {/* <Image
                         src={item.imageUrl}
                         alt=""
                         width={250}
                         height={250}
-                      />
+                      /> */}
                     </div>
                     <Text value={`ID:${item.id}`} />
                     <Text value={item.name} />

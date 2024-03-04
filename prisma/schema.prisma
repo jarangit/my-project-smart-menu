@@ -76,7 +76,7 @@ model Restaurant {
     menus           Menu[]
     categories      Category[]
     toppings        Topping[]
-    meat            Meat[]
+    meats           Meat[]
     createdAt       DateTime   @default(now())
 }
 
@@ -87,6 +87,13 @@ model Category {
     restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
     restaurantId String?
     createdAt    DateTime    @default(now())
+    toppings     Topping[]
+}
+
+model CategoryStore {
+    id           Int            @id @default(autoincrement())
+    name         String
+    createdAt    DateTime       @default(now())
 }
 
 model Menu {
@@ -102,32 +109,49 @@ model Menu {
     discount    Int
     detail      String
 
-    restaurant    Restaurant? @relation(fields: [restaurantId], references: [id])
-    restaurantId  String?
-    meatOptions   Meat[]
+    restaurant     Restaurant? @relation(fields: [restaurantId], references: [id])
+    restaurantId   String?
+    meatOptions    Meat[]      @relation("MenuMeats")
     toppingOptions Topping[]   @relation("MenuToppings")
-    category      Category?   @relation(fields: [categoryId], references: [id])
-    categoryId    Int?
-    createdAt     DateTime    @default(now())
+    category       Category?   @relation(fields: [categoryId], references: [id])
+    categoryId     Int?
+    createdAt      DateTime    @default(now())
 }
 
 model Meat {
     id           Int         @id @default(autoincrement())
     name         String
-    menus        Menu[]
+    menus        Menu[]      @relation("MenuMeats")
     restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
     restaurantId String?
     createdAt    DateTime    @default(now())
 }
 
+model MeatStore {
+    id        Int      @id @default(autoincrement())
+    name      String
+    createdAt DateTime @default(now())
+}
+
 model Topping {
     id           Int         @id @default(autoincrement())
     name         String
+    price        Int
     imageUrl     String?
     restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
     restaurantId String?
     menus        Menu[]      @relation("MenuToppings")
     createdAt    DateTime    @default(now())
+    category     Category?   @relation(fields: [categoryId], references: [id])
+    categoryId   Int?
+}
+
+model ToppingStore {
+    id              Int            @id @default(autoincrement())
+    name            String
+    price           Int
+    imageUrl        String?
+    createdAt       DateTime       @default(now())
 }
 
 model ImageStores {
