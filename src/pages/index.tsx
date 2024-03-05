@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Loading from "@ui-center/atoms/loading";
-import Button from "@ui-cms/atomics/button";
+import Button from "@ui-cms/atoms/button";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";

@@ -2,10 +2,9 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const categoryStoreRouter = createTRPCRouter({
-  getAll: publicProcedure.input({}).query(async ({ ctx }) => {
-    console.log("get data");
-    const data = await ctx.db.categoryStore.findMany({});
-    return ["hi"];
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    const data = await ctx.db.categoryStore.findMany();
+    return data;
   }),
   create: publicProcedure
     .input(
@@ -14,20 +13,25 @@ export const categoryStoreRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log(
-        "%cMyProject%cline:15%cinput",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px",
-        input,
-      );
-      console.log("create cat");
-      // const created = await ctx.db.categoryStore.create({
-      //   data: {
-      //     ...input,
-      //   },
-      // });
-      // return created;
-      return;
+      const created = await ctx.db.categoryStore.create({
+        data: {
+          ...input,
+        },
+      });
+      return created;
+    }),
+  delete: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const deleted = await ctx.db.categoryStore.delete({
+        where: {
+          id: input.id,
+        },
+      });
+      return deleted;
     }),
 });

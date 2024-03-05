@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import Column from "@ui-center/molecules/column";
 import Row from "@ui-center/molecules/row";
-import Button from "@ui-cms/atomics/button";
-import Text from "@ui-cms/atomics/text";
+import Button from "@ui-cms/atoms/button";
+import Text from "@ui-cms/atoms/text";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect } from "react";

@@ -7,7 +7,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { api } from "~/utils/api";
-import Button from "@ui-cms/atomics/button";
+import Button from "@ui-cms/atoms/button";
 
 // determines the ideal file part size for multipart upload based on file's total size
 const calculateChunkSize = (fileSize: number) => {

@@ -7,8 +7,8 @@
 import Column from "@ui-center/molecules/column";
 import Grid from "@ui-center/molecules/grid";
 import Row from "@ui-center/molecules/row";
-import Button from "@ui-cms/atomics/button";
-import Text from "@ui-cms/atomics/text";
+import Button from "@ui-cms/atoms/button";
+import Text from "@ui-cms/atoms/text";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";

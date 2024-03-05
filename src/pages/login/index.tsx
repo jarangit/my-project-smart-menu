@@ -3,7 +3,7 @@ import React from 'react'
 import { useSession, signIn } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from 'next/router';
-import Button from '@ui-cms/atomics/button';
+import Button from '@ui-cms/atoms/button';
 type Props = {}
 
 const LoginPage = ({}) => {

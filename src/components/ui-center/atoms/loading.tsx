@@ -12,7 +12,7 @@ import { useAppSelector } from '~/app-state/redux/hook'
 type Props = {}
 
 const Loading = (props: Props) => {
-  const stateUI = useAppSelector((state) => state?.stateUI)
+  const stateUI = useAppSelector((state:any) => state?.stateUI)
 
   if (!stateUI.showLoading) {
     return null

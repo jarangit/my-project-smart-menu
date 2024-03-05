@@ -7,7 +7,7 @@ import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { api } from "~/utils/api";
 import { env } from "~/env";
-import Button from "@ui-cms/atomics/button";
+import Button from "@ui-cms/atoms/button";
 
 
 export const StandardDropzone = () => {

@@ -5,7 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 import Row from "../molecules/row";
-import Button from "@ui-cms/atomics/button";
+import Button from "@ui-cms/atoms/button";
 import { env } from "~/env";
 
 const TopMenuCMS = () => {

@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Column from '@ui-center/molecules/column'
 import Row from '@ui-center/molecules/row'
-import Text from '@ui-cms/atomics/text'
+import Text from '@ui-cms/atoms/text'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
