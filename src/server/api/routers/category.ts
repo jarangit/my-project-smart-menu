@@ -61,6 +61,58 @@ export const categoryRouter = createTRPCRouter({
 
       return createCategory;
     }),
+  createMany: publicProcedure
+    .input(
+      z.object({
+        items: z.array(
+          z.object({
+            name: z.string(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session?.user.id;
+      if (!userId) {
+        return;
+      }
+      const restaurant = await ctx.db.restaurant.findUnique({
+        where: {
+          ownerId: userId,
+        },
+      });
+      const updateRes = await ctx.db.restaurant.update({
+        where: {
+          ownerId: userId,
+        },
+        data: {
+          categories: {
+            create: input.items,
+          },
+        },
+        include: {
+          categories: true,
+        },
+      });
+      // const createCategory = await ctx.db.category.createMany({
+      //   data: input.items,
+      // });
+
+      // if (createCategory) {
+      //   await ctx.db.restaurant.update({
+      //     where: {
+      //       id: restaurant?.id,
+      //     },
+      //     data: {
+      //       categories: {
+      //         connect: { id: createCategory.id },
+      //       },
+      //     },
+      //   });
+      // }
+
+      return updateRes;
+    }),
   update: publicProcedure
     .input(
       z.object({

@@ -16,6 +16,8 @@ type Props = {};
 
 const CategoryPage = (props: Props) => {
   const dispatch = useDispatch();
+
+  const { data: dataSystemCategory } = api.categoryStore.getAll.useQuery();
   const { data: sessionData } = useSession();
   const { data: restaurantData, isLoading: loadingRestaurant } =
     api.restaurant.getOne.useQuery({ id: sessionData?.user.id as "" });
@@ -26,6 +28,16 @@ const CategoryPage = (props: Props) => {
         return;
       },
     });
+
+  const { mutate: createMany, isLoading: loadingCreateNay } =
+    api.category.createMany.useMutation();
+  console.log(
+    "%cMyProject%cline:26%crestaurantData",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px",
+    restaurantData,
+  );
 
   const { mutateAsync: deleteCat, isLoading: loadingDeleteCat } =
     api.category.delete.useMutation({
@@ -51,23 +63,59 @@ const CategoryPage = (props: Props) => {
       },
     });
 
+  const onCreateCatByDefaultValue = async () => {
+    const items = dataSystemCategory?.map((item) => ({
+      // id: item.id,
+      name: item.name,
+    }));
+    console.log(items);
+    if (items && items.length > 0) {
+      createMany({ items: items });
+    }
+    return;
+  };
+
   useEffect(() => {
     dispatch(
       setShowLoading(
         loadingCreateCat ||
-        loadingDataCat ||
-        loadingDeleteCat ||
-        loadingUpdateCat ||
-        loadingRestaurant
+          loadingDataCat ||
+          loadingDeleteCat ||
+          loadingUpdateCat ||
+          loadingRestaurant ||
+          loadingCreateNay,
       ),
     );
     return;
-  }, [loadingRestaurant, loadingCreateCat, loadingDataCat, loadingDeleteCat, loadingUpdateCat]);
+  }, [
+    loadingRestaurant,
+    loadingCreateCat,
+    loadingDataCat,
+    loadingDeleteCat,
+    loadingUpdateCat,
+    loadingCreateNay,
+  ]);
 
   return (
-    <div>
+    <Column gap={6}>
       <Text value={"Categories"} />
+      <Column className="border p-3">
+        <Text value={"Category of system"} />
+        {dataSystemCategory?.length
+          ? dataSystemCategory.map((item, key) => (
+              <div key={key}>
+                <Row>
+                  <div>{item.name}</div>
+                  <Button className={`bg-gray-500 text-gray-400`}>
+                    Select
+                  </Button>
+                </Row>
+              </div>
+            ))
+          : ""}
 
+        <Button onClick={() => onCreateCatByDefaultValue()}>Save</Button>
+      </Column>
       <Column>
         <Button onClick={() => createCatApi({ name: "Appetizers" })}>
           Create
@@ -76,31 +124,31 @@ const CategoryPage = (props: Props) => {
         <Row gap={4}>
           {dataCatApi?.length
             ? dataCatApi.map((item, key) => (
-              <div key={key}>
-                <Column gap={1}>
-                  <Link href={`/restaurant/category/${item.id}`}>
-                    <Text value={`${item.name} (${item.menus.length})`} />
-                  </Link>
-                  <Button
-                    onClick={() =>
-                      updateCatApi({
-                        id: item.id,
-                        name: "name cat updated",
-                      })
-                    }
-                  >
-                    Update
-                  </Button>
-                  <Button onClick={() => deleteCat({ id: item.id })}>
-                    Delete
-                  </Button>
-                </Column>
-              </div>
-            ))
+                <div key={key}>
+                  <Column gap={1}>
+                    <Link href={`/restaurant/category/${item.id}`}>
+                      <Text value={`${item.name} (${item.menus.length})`} />
+                    </Link>
+                    <Button
+                      onClick={() =>
+                        updateCatApi({
+                          id: item.id,
+                          name: "name cat updated",
+                        })
+                      }
+                    >
+                      Update
+                    </Button>
+                    <Button onClick={() => deleteCat({ id: item.id })}>
+                      Delete
+                    </Button>
+                  </Column>
+                </div>
+              ))
             : ""}
         </Row>
       </Column>
-    </div>
+    </Column>
   );
 };
 

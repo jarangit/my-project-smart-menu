@@ -170,36 +170,7 @@ export const restaurantRouter = createTRPCRouter({
           id: input.id,
         },
       });
-
-      // for (const menuItem of findRestaurant.menus) {
-      //   await ctx.db.menu.delete({
-      //     where: {
-      //       id: menuItem.id,
-      //     },
-      //   });
-      // }
-      // for (const menuItem of findRestaurant.categories) {
-      //   await ctx.db.category.delete({
-      //     where: {
-      //       id: menuItem.id,
-      //     },
-      //   });
-      // }
-      // for (const menuItem of findRestaurant.toppings) {
-      //   await ctx.db.topping.delete({
-      //     where: {
-      //       id: menuItem.id,
-      //     },
-      //   });
-      // }
-      // for (const menuItem of findRestaurant.meats) {
-      //   await ctx.db.meat.delete({
-      //     where: {
-      //       id: menuItem.id,
-      //     },
-      //   });
-      // }
-
       return deleted;
     }),
+ 
 });
