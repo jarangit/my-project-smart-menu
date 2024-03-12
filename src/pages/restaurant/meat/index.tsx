@@ -19,6 +19,7 @@ const MeatPage = (props: Props) => {
   const { data: restaurantData, isLoading: loadingRestaurant } =
     api.restaurant.getOne.useQuery({ id: sessionData?.user.id as "" });
 
+  const { data: dataMeatFromSystem } = api.meatStore.getAll.useQuery();
   const {
     data: dataMeatApi,
     isLoading: loadingDataMeat,
@@ -34,6 +35,8 @@ const MeatPage = (props: Props) => {
         return;
       },
     });
+  const { mutateAsync: createMany, isLoading: loadingCreateManyMeat } =
+    api.meat.createMany.useMutation();
 
   const { mutateAsync: deleteMeat, isLoading: loadingDeleteMeat } =
     api.meat.delete.useMutation({
@@ -43,14 +46,6 @@ const MeatPage = (props: Props) => {
       },
     });
 
-  console.log(
-    "%cMyProject%cline:39%cdataMeatApi",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px",
-    dataMeatApi,
-  );
-
   const { mutate: updateMeatApi, isLoading: loadingUpdateMeat } =
     api.meat.update.useMutation({
       onSuccess: async () => {
@@ -59,6 +54,17 @@ const MeatPage = (props: Props) => {
       },
     });
 
+  const onCreateMeatByDefaultValue = async () => {
+    const items = dataMeatFromSystem?.map((item) => ({
+      // id: item.id,
+      name: item.name,
+    }));
+    if (items && items.length > 0) {
+      void createMany({ items: items });
+    }
+    return;
+  };
+
   useEffect(() => {
     dispatch(
       setShowLoading(
@@ -66,7 +72,8 @@ const MeatPage = (props: Props) => {
           loadingDataMeat ||
           loadingDeleteMeat ||
           loadingUpdateMeat ||
-          loadingRestaurant,
+          loadingRestaurant ||
+          loadingCreateManyMeat,
       ),
     );
     return;
@@ -76,12 +83,31 @@ const MeatPage = (props: Props) => {
     loadingDataMeat,
     loadingDeleteMeat,
     loadingUpdateMeat,
+    loadingCreateManyMeat,
   ]);
 
   return (
     <div>
-      <Text value={"Toppings"} />
+      <Text value={"Meats"} />
+      <Column>
+        <Column className="border p-3">
+          <Text value={"Category of system"} />
+          {dataMeatFromSystem?.length
+            ? dataMeatFromSystem.map((item, key) => (
+                <div key={key}>
+                  <Row>
+                    <div>{item.name}</div>
+                    <Button className={`bg-gray-500 text-gray-400`}>
+                      Select
+                    </Button>
+                  </Row>
+                </div>
+              ))
+            : ""}
 
+          <Button onClick={() => onCreateMeatByDefaultValue()}>Save</Button>
+        </Column>
+      </Column>
       <Column>
         <Button
           onClick={() =>

@@ -31,13 +31,7 @@ const CategoryPage = (props: Props) => {
 
   const { mutate: createMany, isLoading: loadingCreateNay } =
     api.category.createMany.useMutation();
-  console.log(
-    "%cMyProject%cline:26%crestaurantData",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px",
-    restaurantData,
-  );
+  
 
   const { mutateAsync: deleteCat, isLoading: loadingDeleteCat } =
     api.category.delete.useMutation({

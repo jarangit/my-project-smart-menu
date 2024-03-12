@@ -60,6 +60,37 @@ export const meatRouter = createTRPCRouter({
 
       return createMeat;
     }),
+  createMany: publicProcedure
+    .input(
+      z.object({
+        items: z.array(
+          z.object({
+            name: z.string(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session?.user.id;
+      if (!userId) {
+        return;
+      }
+      const updateRes = await ctx.db.restaurant.update({
+        where: {
+          ownerId: userId,
+        },
+        data: {
+          meats: {
+            create: input.items,
+          },
+        },
+        include: {
+          meats: true,
+        },
+      });
+
+      return updateRes;
+    }),
   update: publicProcedure
     .input(
       z.object({

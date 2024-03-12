@@ -6,7 +6,7 @@ import { menuRouter } from "./routers/menu";
 import { categoryRouter } from "./routers/category";
 import { toppingRouter } from "./routers/topping";
 import { meatRouter } from "./routers/meat";
-import { categoryStoreRouter } from "./routers/category-store";
+import { categoryStoreRouter } from "./routers/admin-system/category-store";
 import { meatStoreRouter } from "./routers/admin-system/meat-store";
 
 /**
