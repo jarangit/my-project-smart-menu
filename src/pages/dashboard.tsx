@@ -15,14 +15,6 @@ const DashboardPage = (props: Props) => {
     <div>
       <div>DashboardPage
       </div>
-
-      <div className='border'>
-        <div>standard dropzone</div>
-        <div>
-          <StandardDropzone />
-        </div>
-      </div>
-   
     </div>
   )
 }

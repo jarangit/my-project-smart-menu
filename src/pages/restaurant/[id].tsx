@@ -123,7 +123,6 @@ const RestaurantPage = ({}) => {
     }
   };
 
-  
   useEffect(() => {
     dispatch(
       setShowLoading(
@@ -224,27 +223,77 @@ const RestaurantPage = ({}) => {
                     : ""}
                 </Row>
               </Column>
-              <Row gap={4} className="flex-wrap">
-                {restaurantData?.menus && restaurantData?.menus?.length
-                  ? restaurantData?.menus?.map((item, key) => (
-                      <div key={key}>
-                        <Link href={`/restaurant/menu/${item.id}`}>
-                          <div className="w-fit overflow-hidden rounded-lg">
-                            {/* <Image
+
+              <Column>
+                <Text value={"Menus"} className="font-bold" />
+                <Row gap={4} className="flex-wrap divide-x-2 divide-green-600">
+                  {restaurantData?.menus && restaurantData?.menus?.length
+                    ? restaurantData?.menus?.map((item, key) => (
+                        <div key={key}>
+                          <Link href={`/restaurant/menu/${item.id}`}>
+                            <div className="w-fit overflow-hidden rounded-lg">
+                              {/* <Image
                               src={item.imageUrl}
                               alt=""
                               width={250}
                               height={250}
                             /> */}
-                          </div>
-                          <Text value={item.name} />
-                          <Text value={`${item.price} BTH`} />
-                        </Link>
-                      </div>
-                    ))
-                  : ""}
-                <div></div>
-              </Row>
+                            </div>
+                            <Text value={item.name} />
+                            <Text value={`${item.price} BTH`} />
+                          </Link>
+                        </div>
+                      ))
+                    : ""}
+                  <div></div>
+                </Row>
+              </Column>
+              <Column>
+                <Text value={"Meats"} className="font-bold" />
+                <Row gap={4} className="flex-wrap divide-x-2 divide-green-600">
+                  {restaurantData?.meats && restaurantData?.meats?.length
+                    ? restaurantData?.meats?.map((item, key) => (
+                        <div key={key}>
+                          <Link href={`/restaurant/menu/${item.id}`}>
+                            <div className="w-fit overflow-hidden rounded-lg">
+                              {/* <Image
+                              src={item.imageUrl}
+                              alt=""
+                              width={250}
+                              height={250}
+                            /> */}
+                            </div>
+                            <Text value={item.name} />
+                          </Link>
+                        </div>
+                      ))
+                    : ""}
+                  <div></div>
+                </Row>
+              </Column>
+              <Column>
+                <Text value={"Topping"} className="font-bold" />
+                <Row gap={4} className="flex-wrap divide-x-2 divide-green-600">
+                  {restaurantData?.toppings && restaurantData?.toppings?.length
+                    ? restaurantData?.toppings?.map((item, key) => (
+                        <div key={key}>
+                          <Link href={`/restaurant/menu/${item.id}`}>
+                            <div className="w-fit overflow-hidden rounded-lg">
+                              {/* <Image
+                              src={item.imageUrl}
+                              alt=""
+                              width={250}
+                              height={250}
+                            /> */}
+                            </div>
+                            <Text value={item.name} />
+                          </Link>
+                        </div>
+                      ))
+                    : ""}
+                  <div></div>
+                </Row>
+              </Column>
               <div className="border">
                 <strong>Update Restaurant</strong>
                 <div>
