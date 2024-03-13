@@ -9,7 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = ({ children, className, ...props }: ButtonProps) => {
   return (
     <button
-      className={`rounded-full bg-lime-400 px-5 py-1 font-bold drop-shadow-sm ${className ?? ""}`}
+      className={`rounded-md uppercase bg-lime-600 px-6 py-1 font-semibold text-md text-white flex justify-center items-center drop-shadow-sm ${className ?? ""}`}
       {...props}
     >
       {children}

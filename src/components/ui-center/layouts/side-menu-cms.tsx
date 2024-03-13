@@ -1,94 +1,113 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 /* eslint-disable @typescript-eslint/ban-types */
-import React from 'react'
-import Column from '../molecules/column'
-import Link from 'next/link'
-import { useSession } from 'next-auth/react'
+import React from "react";
+import Column from "../molecules/column";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
-type Props = {}
+type Props = {};
 
 const SideMenuCMS = (props: Props) => {
-  const { data: sessionData } = useSession()
+  const { data: sessionData } = useSession();
+  const { pathname } = useRouter();
+  console.log(
+    "%cMyProject%cline:16%cpathname",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px",
+    pathname,
+  );
   const menus = [
     {
-      text: 'Dashboard',
-      url: '/dashboard',
+      text: "Dashboard",
+      url: "/dashboard",
       subMenu: [],
     },
     {
-      text: 'My Restaurant',
-      url: `/restaurant/${sessionData?.user.id}`,
-      subMenu: [
-        {
-          text: 'Menu',
-          url: `/restaurant/menu`,
-
-        },
-        {
-          text: 'Category',
-          url: `/restaurant/category`,
-
-        },
-        {
-          text: 'Topping',
-          url: `/restaurant/topping`,
-
-        },
-        {
-          text: 'Meat',
-          url: `/restaurant/meat`,
-
-        },
-      ],
-    },
-    {
-      text: 'My QR',
-      url: '/my-qr',
+      text: "My Restaurant",
+      url: `/restaurant`,
       subMenu: [],
     },
-  ]
-  const styleText = 'font-semibold'
+    {
+      text: "Menu",
+      url: `/restaurant/menu`,
+    },
+    {
+      text: "Category",
+      url: `/restaurant/category`,
+    },
+    {
+      text: "Topping",
+      url: `/restaurant/topping`,
+    },
+    {
+      text: "Meat",
+      url: `/restaurant/meat`,
+    },
+    {
+      text: "My QR",
+      url: "/my-qr",
+      subMenu: [],
+    },
+  ];
+  const styleText = `font-normal hover:bg-black hover:text-white px-6 py-2 rounded-lg transition-all`;
   return (
-    <div className='p-6'>
-      <Column gap={6} className='divide-y'>
-        <Column gap={6}>
+    <div className="h-screen p-6">
+      <Column gap={6} className="divide-y">
+        <Column>
           {menus.map((item, key) => (
             <div key={key}>
-              {!item.subMenu.length ? (
+              {!item.subMenu ? (
                 <Link href={item.url}>
-                  <div className={`${styleText}`}>{item.text}</div>
+                  <div
+                    className={`${styleText} ${pathname == item.url ? "!bg-black !text-white" : ""}`}
+                  >
+                    {item.text}
+                  </div>
                 </Link>
               ) : (
-                <Column gap={4}>
-                  <Link href={item.url} className={`${styleText}`}>{item.text}</Link>
-                  {item.subMenu.map((sub, key) => (
-                    <div key={key} className='pl-6'>
-                      <Link href={sub.url}>
+                <Column>
+                  <Link
+                    href={item.url}
+                    className={`${styleText} ${pathname == item.url ? "!bg-black !text-white" : ""}`}
+                  >
+                    {item.text}
+                  </Link>
+                  {item.subMenu.map((sub: any, key) => (
+                    <div key={key} className="pl-6">
+                      <Link href={sub?.url}>
                         <div className={`${styleText}`}>{sub.text}</div>
                       </Link>
                     </div>
                   ))}
                 </Column>
               )}
-
             </div>
           ))}
         </Column>
-        <Column gap={6} className='pt-6'>
-          <div >
-            <Link href={'/my-account'}>
-              <div className={`${styleText}`}>My Account</div>
+        <Column className="pt-6">
+          <div>
+            <Link href={"/my-account"}>
+              <div
+                className={`${styleText} ${pathname == "/my-account" ? "bg-black text-white" : ""}`}
+              >
+                My Account
+              </div>
             </Link>
           </div>
-          <div >
-            <Link href={'/my-qr'}>
+          <div>
+            <Link href={"/my-qr"}>
               <div className={`${styleText}`}>Logout</div>
             </Link>
           </div>
         </Column>
       </Column>
     </div>
-  )
-}
+  );
+};
 
-export default SideMenuCMS
+export default SideMenuCMS;
