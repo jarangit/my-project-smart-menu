@@ -16,12 +16,12 @@ const CMSLayout = ({ children }: Props) => {
       <TopMenuCMS />
       <div className="my-container-outside-cms flex">
         <div
-          className={`${isShowSideMenu ? "w-0 md:w-2/6 lg:w-1/6" : "w-0"} max-h-[90vh] overflow-hidden border-r-2 transition-all`}
+          className={`${isShowSideMenu ? "w-0 md:w-2/6 lg:w-1/6" : "w-0"} max-h-[90vh] overflow-hidden x transition-all`}
         >
           <SideMenuCMS />
         </div>
         <div
-          className={`${isShowSideMenu ? "w-full md:w-5/6" : "w-full"}  relative max-h-[90vh] overflow-y-scroll  p-10 pt-3 transition-all`}
+          className={`${isShowSideMenu ? "w-full md:w-5/6" : "w-full"}  relative max-h-[90vh] overflow-y-scroll  p-10 pt-3 transition-all `}
         >
           <div className="min-h-screen">
             {/* <div

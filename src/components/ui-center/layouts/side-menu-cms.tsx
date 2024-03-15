@@ -54,9 +54,9 @@ const SideMenuCMS = (props: Props) => {
       subMenu: [],
     },
   ];
-  const styleText = `font-normal hover:bg-black hover:text-white px-6 py-2 rounded-lg transition-all`;
+  const styleText = `font-normal  hover:text-main font-semibold px-6 py-2 rounded-full transition-all `;
   return (
-    <div className="h-screen p-6">
+    <div className="bg-sidebar h-screen p-6">
       <Column gap={6} className="divide-y">
         <Column>
           {menus.map((item, key) => (
@@ -64,7 +64,7 @@ const SideMenuCMS = (props: Props) => {
               {!item.subMenu ? (
                 <Link href={item.url}>
                   <div
-                    className={`${styleText} ${pathname == item.url ? "!bg-black !text-white" : ""}`}
+                    className={`${styleText} ${pathname == item.url ? "!text-main !bg-white font-semibold shadow-sm" : ""}`}
                   >
                     {item.text}
                   </div>
@@ -73,7 +73,7 @@ const SideMenuCMS = (props: Props) => {
                 <Column>
                   <Link
                     href={item.url}
-                    className={`${styleText} ${pathname == item.url ? "!bg-black !text-white" : ""}`}
+                    className={`${styleText} ${pathname == item.url ? "!text-main !bg-white font-semibold shadow-sm" : ""}`}
                   >
                     {item.text}
                   </Link>
