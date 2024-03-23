@@ -7,9 +7,9 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-images:{
-  domains:['smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com']
-},
+  images: {
+    domains: ['smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com', 'lh3.googleusercontent.com']
+  },
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.
    *

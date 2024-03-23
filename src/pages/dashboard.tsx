@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import Column from '@ui-center/molecules/column'
+import Card from '@ui-cms/atoms/card'
+import Text from '@ui-cms/atoms/text'
 import Image from 'next/image'
 import React from 'react'
 import { MultipartDropzone } from '~/components/ui-cms/molecules/muti-dropzone'
@@ -12,10 +15,23 @@ const DashboardPage = (props: Props) => {
   const { data, isLoading, error } = api.s3.getObjects.useQuery()
 
   return (
-    <div>
-      <div>DashboardPage
+    <Column gap={2}>
+      <Text value={"Dashboard"} className='text-2xl font-bold' />
+      <div className='grid grid-cols-3 gap-3'>
+        <Card className='!bg-main text-white'>
+          <div>
+            <Text value={'27'}  className='text-6xl font-bold'/>
+            <Text value={'total scan'}  className='font-medium'/>
+          </div>
+        </Card>
+        <Card>
+          <div>item</div>
+        </Card>
+        <Card>
+          <div>item</div>
+        </Card>
       </div>
-    </div>
+    </Column>
   )
 }
 

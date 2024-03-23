@@ -72,9 +72,9 @@ const SideMenuCMS = (props: Props) => {
       subMenu: [],
     },
   ];
-  const styleText = `font-normal  hover:text-main font-semibold px-6 py-2 rounded-full transition-all `;
+  const styleText = `font-normal  hover:text-main font-semibold px-6 py-2 rounded-full transition-all text-nowrap `;
   return (
-    <div className="bg-sidebar h-screen p-6 ">
+    <div className="bg-sidebar h-screen p-6 text-white">
       <Column gap={6} className="divide-y">
         <Column>
           {menus.map((item, key) => (

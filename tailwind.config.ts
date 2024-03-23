@@ -9,7 +9,7 @@ export default {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       colors: {
-        main: "#ed5d09",
+        main: "#FFA500",
         // main: "#72bf1f",
       },
     },

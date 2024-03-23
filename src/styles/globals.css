@@ -11,6 +11,7 @@ body {
   /* background-color: #f6f6f8; */
   color: #4d4e5a;
   margin: 0 auto;
+  background: rgb(10, 16, 24);
 }
 .my-container-outside-cms {
   width: 100%;
@@ -23,6 +24,33 @@ input {
   border: 1px solid gray;
 }
 .bg-sidebar {
- /* background: rgb(193, 193, 203); */
-background: linear-gradient(356deg, rgb(215, 215, 219) 59%, rgb(254, 254, 254) 100%);
+  background: rgb(10, 16, 24);
+  /* background: linear-gradient(
+    356deg,
+    rgb(215, 215, 219) 59%,
+    rgb(254, 254, 254) 100%
+  ); */
+}
+/* width */
+.my-scroll::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 20px;
+  position: absolute;
+}
+
+/* Track */
+.my-scroll::-webkit-scrollbar-track {
+  border-radius: 20px;
+  
+}
+
+/* Handle */
+.my-scroll::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: rgb(213, 151, 28);
+}
+
+/* Handle on hover */
+.my-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgb(213, 151, 28);
 }

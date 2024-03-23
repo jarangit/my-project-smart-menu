@@ -7,13 +7,15 @@ import React, { useState } from "react";
 import Row from "../molecules/row";
 import Button from "@ui-cms/atoms/button";
 import { env } from "~/env";
+import Image from "next/image";
 
 const TopMenuCMS = () => {
   const { data: sessionData } = useSession();
+  console.log('%cMyProject%cline:13%csessionData', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(96, 143, 159);padding:3px;border-radius:2px', sessionData)
   return (
     <div>
       {/* nav */}
-      <div className="border-b p-6">
+      <div className="text-white p-6">
         <Row className="w-full justify-between">
           <div className="text-2xl font-bold text-main">JR SM</div>
           <Row className="flex  justify-end gap-6 font-medium">
@@ -21,11 +23,24 @@ const TopMenuCMS = () => {
             <div>
               {sessionData ? (
                 <Row gap={4}>
-                  <div>{sessionData?.user.name}</div>
-                  <Button onClick={() => signOut()}>Logout</Button>
+                  {/* <div>{sessionData?.user.name}</div> */}
                   <Link href={`/admin/6023`}>
                     <div>Admin</div>
                   </Link>
+                  <Link href={`/my-account`}>
+                    <div className="relative w-10 h-10 overflow-hidden  rounded-full">
+                      <Image
+                        src={sessionData?.user.image as ''}
+                        alt=""
+                        fill
+                        style={{
+                          objectFit: 'cover'
+                        }}
+                      />
+                    </div>
+                  </Link>
+                  {/* <Button onClick={() => signOut()}>Logout</Button> */}
+
                 </Row>
               ) : (
                 <Link href={`/login`}>Login</Link>
