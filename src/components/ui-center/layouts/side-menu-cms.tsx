@@ -8,6 +8,16 @@ import Column from "../molecules/column";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { AiOutlineDashboard } from "react-icons/ai";
+import { HiMiniBuildingLibrary } from "react-icons/hi2";
+import Row from "@ui-center/molecules/row";
+import { MdFastfood } from "react-icons/md";
+import { TbCategoryFilled } from "react-icons/tb";
+import { LuLayoutList } from "react-icons/lu";
+import { GiRoastChicken } from "react-icons/gi";
+import { IoQrCode } from "react-icons/io5";
+import { RiAccountBoxFill } from "react-icons/ri";
+import { RiLogoutCircleRFill } from "react-icons/ri";
 
 type Props = {};
 
@@ -24,50 +34,59 @@ const SideMenuCMS = (props: Props) => {
   const menus = [
     {
       text: "Dashboard",
+      icon: <AiOutlineDashboard />,
       url: "/dashboard",
       subMenu: [],
     },
     {
       text: "My Restaurant",
+      icon: <HiMiniBuildingLibrary />
+      ,
       url: `/restaurant`,
       subMenu: [],
     },
     {
       text: "Menu",
+      icon: <MdFastfood />,
       url: `/restaurant/menu`,
     },
     {
       text: "Category",
+      icon: <TbCategoryFilled />,
       url: `/restaurant/category`,
     },
     {
       text: "Topping",
+      icon: <LuLayoutList />,
       url: `/restaurant/topping`,
     },
     {
       text: "Meat",
+      icon: <GiRoastChicken />,
       url: `/restaurant/meat`,
     },
     {
       text: "My QR",
+      icon: <IoQrCode />,
       url: "/my-qr",
       subMenu: [],
     },
   ];
   const styleText = `font-normal  hover:text-main font-semibold px-6 py-2 rounded-full transition-all `;
   return (
-    <div className="bg-sidebar h-screen p-6">
+    <div className="bg-sidebar h-screen p-6 ">
       <Column gap={6} className="divide-y">
         <Column>
           {menus.map((item, key) => (
             <div key={key}>
               {!item.subMenu ? (
                 <Link href={item.url}>
-                  <div
-                    className={`${styleText} ${pathname == item.url ? "!text-main !bg-white font-semibold shadow-sm" : ""}`}
-                  >
-                    {item.text}
-                  </div>
+                  <Row gap={2} className={`${styleText} ${pathname == item.url ? "!text-main !bg-white font-semibold shadow-sm" : ""}`}>
+                    <div className="text-xl">{item.icon}</div>
+                    <div>
+                      {item.text}
+                    </div>
+                  </Row>
                 </Link>
               ) : (
                 <Column>
@@ -75,7 +94,10 @@ const SideMenuCMS = (props: Props) => {
                     href={item.url}
                     className={`${styleText} ${pathname == item.url ? "!text-main !bg-white font-semibold shadow-sm" : ""}`}
                   >
-                    {item.text}
+                    <Row gap={2}>
+                      <div className="text-xl">{item.icon}</div>
+                      {item.text}
+                    </Row>
                   </Link>
                   {item.subMenu.map((sub: any, key) => (
                     <div key={key} className="pl-6">
@@ -92,16 +114,27 @@ const SideMenuCMS = (props: Props) => {
         <Column className="pt-6">
           <div>
             <Link href={"/my-account"}>
-              <div
+              <Row
+                gap={2}
                 className={`${styleText} ${pathname == "/my-account" ? "bg-black text-white" : ""}`}
               >
-                My Account
-              </div>
+                <div className="text-xl">
+                  <RiAccountBoxFill />
+                </div>
+                <div>
+                  My Account
+                </div>
+              </Row>
             </Link>
           </div>
           <div>
             <Link href={"/my-qr"}>
-              <div className={`${styleText}`}>Logout</div>
+              <Row gap={2} className={`${styleText}`}>
+                <div className="text-xl">
+                  <RiLogoutCircleRFill />
+                </div>
+                Logout
+              </Row>
             </Link>
           </div>
         </Column>

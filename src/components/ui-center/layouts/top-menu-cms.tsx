@@ -13,22 +13,25 @@ const TopMenuCMS = () => {
   return (
     <div>
       {/* nav */}
-      <div className="border-b-2 p-6">
-        <Row className="flex  justify-end gap-6">
-          <Link href={`/restaurant/dashboard`}>Home</Link>
-          <div>
-            {sessionData ? (
-              <Row gap={4}>
-                <div>{sessionData?.user.name}</div>
-                <Button onClick={() => signOut()}>Logout</Button>
-                <Link href={`/admin/6023`}>
-                  <div>Admin</div>
-                </Link>
-              </Row>
-            ) : (
-              <Link href={`/login`}>Login</Link>
-            )}
-          </div>
+      <div className="border-b p-6">
+        <Row className="w-full justify-between">
+          <div className="text-2xl font-bold text-main">JR SM</div>
+          <Row className="flex  justify-end gap-6 font-medium">
+            <Link href={`/dashboard`}>Home</Link>
+            <div>
+              {sessionData ? (
+                <Row gap={4}>
+                  <div>{sessionData?.user.name}</div>
+                  <Button onClick={() => signOut()}>Logout</Button>
+                  <Link href={`/admin/6023`}>
+                    <div>Admin</div>
+                  </Link>
+                </Row>
+              ) : (
+                <Link href={`/login`}>Login</Link>
+              )}
+            </div>
+          </Row>
         </Row>
       </div>
     </div>
