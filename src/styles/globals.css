@@ -9,7 +9,7 @@ body {
   /* background-color: rgb(242, 239, 236); */
   /* background-color: rgb(251, 255, 243);; */
   /* background-color: #f6f6f8; */
-  color: #4d4e5a;
+  /* color: #4d4e5a; */
   margin: 0 auto;
   background: rgb(10, 16, 24);
 }
@@ -41,7 +41,6 @@ input {
 /* Track */
 .my-scroll::-webkit-scrollbar-track {
   border-radius: 20px;
-  
 }
 
 /* Handle */

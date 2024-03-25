@@ -21,7 +21,7 @@ const CMSLayout = ({ children }: Props) => {
           <SideMenuCMS />
         </div>
         <div
-          className={`${isShowSideMenu ? "w-full md:w-5/6" : "w-full"} my-scroll relative max-h-[87vh]  overflow-y-scroll  p-6 transition-all bg-[#f6f6f8] m-3 rounded-2xl overflow-hidden `}
+          className={`${isShowSideMenu ? "w-full md:w-5/6" : "w-full"} my-scroll relative max-h-[87vh]  overflow-y-scroll  p-6 transition-all bg-[#FAFAFAFF] m-3 rounded-2xl overflow-hidden `}
         >
           <div className="min-h-screen ">
             {/* <div
