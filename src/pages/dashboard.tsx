@@ -19,7 +19,7 @@ type Props = {}
 
 const DashboardPage = (props: Props) => {
   const { data, isLoading, error } = api.s3.getObjects.useQuery()
-
+  const menuImage = 'https://smart-menu-web-storage.s3.ap-southeast-1.amazonaws.com/coffee-drink-with-lots-whipped-cream.jpg'
   return (
     <Column gap={6}>
       <Text value={"Dashboard"} className='text-2xl font-bold' />
@@ -98,6 +98,141 @@ const DashboardPage = (props: Props) => {
           </Column>
         </Card>
 
+      </div>
+
+      {/* top menu */}
+      <div className='grid grid-cols-1 lg:grid-cols-4 gap-6'>
+        <Card className='lg:col-span-3'>
+          <Column gap={4}>
+            <Text value={"Top menu"} className='text-xl font-semibold' />
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3'>
+              <Column gap={1} className='w-fit'>
+                <div className='relative w-[200px] h-[200px] rounded-xl overflow-hidden'>
+                  <Image
+                    src={menuImage}
+                    alt=''
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+              </Column>
+              <Column gap={1} className='w-fit'>
+                <div className='relative w-[200px] h-[200px] rounded-xl overflow-hidden'>
+                  <Image
+                    src={menuImage}
+                    alt=''
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+              </Column>
+              <Column gap={1} className='w-fit'>
+                <div className='relative w-[200px] h-[200px] rounded-xl overflow-hidden'>
+                  <Image
+                    src={menuImage}
+                    alt=''
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+              </Column>
+              <Column gap={1} className='w-fit'>
+                <div className='relative w-[200px] h-[200px] rounded-xl overflow-hidden'>
+                  <Image
+                    src={menuImage}
+                    alt=''
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+              </Column>
+              <Column gap={1} className='w-fit'>
+                <div className='relative w-[200px] h-[200px] rounded-xl overflow-hidden'>
+                  <Image
+                    src={menuImage}
+                    alt=''
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+              </Column>
+            </div>
+          </Column>
+        </Card>
+
+        {/* lasted menu */}
+        <Card className='lg:col-span-1'>
+          <Column gap={4}>
+            <Text value={"Top menu"} className='text-xl font-semibold' />
+            <Column className='flex gap-6'>
+              <Row gap={1} className=' justify-between w-full'>
+                <Row>
+                  <div className='relative w-10 h-10 rounded-xl overflow-hidden'>
+                    <Image
+                      src={menuImage}
+                      alt=''
+                      fill
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </div>
+                  <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+                </Row>
+                <div>
+                  <Text value={`299 BTH`} className='font-semibold' />
+                </div>
+              </Row>
+              <Row gap={1} className='w-fit'>
+                <div className='relative w-10 h-10 rounded-xl overflow-hidden'>
+                  <Image
+                    src={menuImage}
+                    alt=''
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+              </Row>
+              <Row gap={1} className='w-fit'>
+                <div className='relative w-10 h-10 rounded-xl overflow-hidden'>
+                  <Image
+                    src={menuImage}
+                    alt=''
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+              </Row>
+              <Row gap={1} className='w-fit'>
+                <div className='relative w-10 h-10 rounded-xl overflow-hidden'>
+                  <Image
+                    src={menuImage}
+                    alt=''
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+              </Row>
+              <Row gap={1} className='w-fit'>
+                <div className='relative w-10 h-10 rounded-xl overflow-hidden'>
+                  <Image
+                    src={menuImage}
+                    alt=''
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+              </Row>
+            </Column>
+          </Column>
+        </Card>
       </div>
     </Column>
   )
