@@ -106,61 +106,90 @@ const DashboardPage = (props: Props) => {
           <Column gap={4}>
             <Text value={"Top menu"} className='text-xl font-semibold' />
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3'>
-              <Column gap={1} className='w-fit'>
-                <div className='relative w-[200px] h-[200px] rounded-xl overflow-hidden'>
+              <Column gap={1} className=''>
+                <div className="overflow-hidden rounded-xl">
                   <Image
                     src={menuImage}
                     alt=''
-                    fill
-                    style={{ objectFit: 'cover' }}
+                    width={300}
+                    height={300}
+                  // fill
+                  // style={{ objectFit: 'contain' }}
                   />
                 </div>
-                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+                <Column className='text-center gap-0'>
+                  <Text value={"Coffee"} className='font-semibold text-gray-700  text-xl ' />
+                  <Text value={'299 BTH'} className='font-bold text-main' />
+                </Column>
               </Column>
-              <Column gap={1} className='w-fit'>
-                <div className='relative w-[200px] h-[200px] rounded-xl overflow-hidden'>
+              <Column gap={1} className=''>
+                <div className="overflow-hidden rounded-xl">
                   <Image
                     src={menuImage}
                     alt=''
-                    fill
-                    style={{ objectFit: 'cover' }}
+                    width={300}
+                    height={300}
+                  // fill
+                  // style={{ objectFit: 'contain' }}
                   />
                 </div>
-                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+                <Column className='text-center gap-0'>
+                  <Text value={"Coffee"} className='font-semibold text-gray-700  text-xl ' />
+                  <Text value={'299 BTH'} className='font-bold text-main' />
+                </Column>
               </Column>
-              <Column gap={1} className='w-fit'>
-                <div className='relative w-[200px] h-[200px] rounded-xl overflow-hidden'>
+              <Column gap={1} className=''>
+                <div className="overflow-hidden rounded-xl">
                   <Image
                     src={menuImage}
                     alt=''
-                    fill
-                    style={{ objectFit: 'cover' }}
+                    width={300}
+                    height={300}
+                  // fill
+                  // style={{ objectFit: 'contain' }}
                   />
                 </div>
-                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+                <Column className='text-center gap-0'>
+                  <Text value={"Coffee"} className='font-semibold text-gray-700  text-xl ' />
+                  <Text value={'299 BTH'} className='font-bold text-main' />
+                </Column>
               </Column>
-              <Column gap={1} className='w-fit'>
-                <div className='relative w-[200px] h-[200px] rounded-xl overflow-hidden'>
+              <Column gap={1} className=''>
+                <div className="overflow-hidden rounded-xl">
                   <Image
                     src={menuImage}
                     alt=''
-                    fill
-                    style={{ objectFit: 'cover' }}
+                    width={300}
+                    height={300}
+                  // fill
+                  // style={{ objectFit: 'contain' }}
                   />
                 </div>
-                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+                <Column className='text-center gap-0'>
+                  <Text value={"Coffee"} className='font-semibold text-gray-700  text-xl ' />
+                  <Text value={'299 BTH'} className='font-bold text-main' />
+                </Column>
               </Column>
-              <Column gap={1} className='w-fit'>
-                <div className='relative w-[200px] h-[200px] rounded-xl overflow-hidden'>
+              <Column gap={1} className=''>
+                <div className="overflow-hidden rounded-xl">
                   <Image
                     src={menuImage}
                     alt=''
-                    fill
-                    style={{ objectFit: 'cover' }}
+                    width={300}
+                    height={300}
+                  // fill
+                  // style={{ objectFit: 'contain' }}
                   />
                 </div>
-                <Text value={"Coffee"} className='font-medium text-gray-700 text-center' />
+                <Column className='text-center gap-0'>
+                  <Text value={"Coffee"} className='font-semibold text-gray-700  text-xl ' />
+                  <Text value={'299 BTH'} className='font-bold text-main' />
+                </Column>
               </Column>
+            
+              
+              
+              
             </div>
           </Column>
         </Card>
@@ -169,7 +198,7 @@ const DashboardPage = (props: Props) => {
         <Card className='lg:col-span-1'>
           <Column gap={4}>
             <Text value={"Top menu"} className='text-xl font-semibold' />
-            <Column className='flex gap-6'>
+            <Column className='flex gap-5'>
               <Row gap={1} className=' justify-between w-full'>
                 <Row>
                   <div className='relative w-10 h-10 rounded-xl overflow-hidden'>
