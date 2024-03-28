@@ -67,7 +67,7 @@ model Restaurant {
     name            String?
     profileImageUrl String?
     coverImage      String?
-    facebook        String?
+    facebookUrl        String?
     lineId          String?
     googleMapUrl    String?
     phone           String?

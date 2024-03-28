@@ -186,7 +186,7 @@ const RestaurantPage = ({}) => {
                 </Row>
                 <Row gap={4}>
                   <Text value={"facebook"} className="font-bold" />
-                  <Text value={restaurantData.facebook as ""} />
+                  <Text value={restaurantData.facebookUrl as ""} />
                 </Row>
                 <Row gap={4}>
                   <Text value={"lineId"} className="font-bold" />
