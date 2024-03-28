@@ -1,25 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React from "react";
 
-type Props = {
-  children: any
-  gap?: number
-  className?: string
-  onAction?: () => void
-}
+type DivProps = React.HTMLAttributes<HTMLDivElement> & {
+  gap?: number;
+};
 
-const Row = ({ children, gap, className, onAction }: Props) => {
+const Row: React.FC<DivProps> = ({ children, className, gap, ...props }) => {
   return (
     <div
-      className={`flex flex-row items-center  flex-wrap
-      ${className ?? ''}
-      ${gap ? `gap-${gap}` : 'gap-1'}
+      {...props}
+      className={`flex flex-row flex-wrap  items-center
+      ${className ?? ""}
+      ${gap ? `gap-${gap}` : "gap-1"}
       `}
-      onClick={onAction}
     >
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default Row
+export default Row;

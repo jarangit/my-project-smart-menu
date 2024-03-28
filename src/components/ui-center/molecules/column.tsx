@@ -1,28 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React from 'react'
+import React from "react";
 
-type Props = {
-  children: any
-  gap?: number
-  className?: string
-  ref?: any
-  onClick?: () => void
-}
+type DivProps = React.HTMLAttributes<HTMLDivElement> & {
+  gap?: number;
+};
 
-const Column = ({ children, gap, className, ref, onClick }: Props) => {
+const Column: React.FC<DivProps> = ({ children, gap, className, ...props }) => {
   return (
     <div
-      ref={ref}
+      {...props}
       className={`flex flex-col
-      ${className ?? ''}
-    ${gap ? `gap-${gap}` : 'gap-1'}
+      ${className ?? ""}
+    ${gap ? `gap-${gap}` : "gap-1"}
       `}
-      onClick={onClick}
     >
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default Column
+export default Column;

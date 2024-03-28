@@ -10,9 +10,12 @@
 import { TRPCClientError } from "@trpc/client";
 import { TRPCError } from "@trpc/server";
 import Column from "@ui-center/molecules/column";
+import Grid from "@ui-center/molecules/grid";
 import Row from "@ui-center/molecules/row";
 import Button from "@ui-cms/atoms/button";
+import Input from "@ui-cms/atoms/input";
 import Text from "@ui-cms/atoms/text";
+import FormCreateRestaurant from "@ui-cms/molecules/forms/form-create-restaurant";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -62,24 +65,12 @@ const RestaurantPage = ({}) => {
     isLoading: loadingDataRestaurant,
     refetch,
   } = api.restaurant.getOne.useQuery({ id: userId as "" });
-  console.log(
-    "%cMyProject%cline:50%crestaurantData",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
-    restaurantData,
-  );
+
   const { data: dataCatApi, isLoading: loadingDataCat } =
     api.category.getAllByRestaurantId.useQuery({
       id: restaurantData?.id as "",
     });
-  console.log(
-    "%cMyProject%cline:69%cdataCatApi",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px",
-    dataCatApi,
-  );
+
   const {
     mutateAsync: updateRestaurantMutation,
     isLoading: loadingUpdateRestaurant,
@@ -124,15 +115,15 @@ const RestaurantPage = ({}) => {
   };
 
   useEffect(() => {
-    dispatch(
-      setShowLoading(
-        loadingCreateRestaurant ||
-          loadingDataRestaurant ||
-          loadingDeleteRestaurant ||
-          loadingUpdateRestaurant ||
-          loadingDataCat,
-      ),
-    );
+    // dispatch(
+    //   setShowLoading(
+    //     loadingCreateRestaurant ||
+    //       loadingDataRestaurant ||
+    //       loadingDeleteRestaurant ||
+    //       loadingUpdateRestaurant ||
+    //       loadingDataCat,
+    //   ),
+    // );
 
     return;
   }, [
@@ -310,17 +301,10 @@ const RestaurantPage = ({}) => {
             </Column>
           </div>
         ) : (
-          <div>
-            <div>
-              <strong>Create Restaurant</strong>
-              <div>
-                <input type="text" placeholder="name" />
-                <Button onClick={() => onCreateRestaurant(mockDataCreate)}>
-                  Create
-                </Button>
-              </div>
-            </div>
-          </div>
+          <Column gap={3}>
+            <h1 className="text-3xl font-bold">Create Restaurant</h1>
+            <FormCreateRestaurant />
+          </Column>
         )}
       </div>
     </div>

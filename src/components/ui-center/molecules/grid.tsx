@@ -1,23 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React from "react";
 
-type Props = {
-  col?: number
-  gap?: number
-  className?: string
-  children: any
-}
+type DivProps = React.HTMLAttributes<HTMLDivElement> & {
+  col?: number;
+  gap?: number;
+};
 
-const Grid = ({ children, col, gap, className }: Props) => {
+const Grid: React.FC<DivProps> = ({
+  children,
+  className,
+  col,
+  gap,
+  ...props
+}) => {
   return (
     <div
-      className={`grid ${col ? `grid-cols-${col.toString()}` : 'grid-cols-1'}  ${gap ? `gap-${gap}` : 'gap-1'}       ${className ?? ''
-        }
+      {...props}
+      className={`grid ${col ? `grid-cols-${col.toString()}` : "grid-cols-1"}  ${gap ? `gap-${gap.toString()}` : "gap-1"}       ${
+        className ?? ""
+      }
     `}
     >
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default Grid
+export default Grid;

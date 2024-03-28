@@ -11,10 +11,10 @@ const Input = ({ title, ...props }: InputProps) => {
     <div>
       <label>
         <Column gap={0}>
-          {title && <div className="font-semibold">{title}</div>}
+          {title && <div className="font-semibold text-gray-500">{title}</div>}
           <input
             {...props}
-            className="w-full  rounded-md border-gray-400 bg-transparent px-3 p-2 outline-lime-400"
+            className="w-full  rounded-md border-gray-400 bg-transparent p-2 px-3 outline-main"
           />
         </Column>
       </label>

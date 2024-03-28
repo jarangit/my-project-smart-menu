@@ -24,13 +24,6 @@ type Props = {};
 const SideMenuCMS = (props: Props) => {
   const { data: sessionData } = useSession();
   const { pathname } = useRouter();
-  console.log(
-    "%cMyProject%cline:16%cpathname",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px",
-    pathname,
-  );
   const menus = [
     {
       text: "Dashboard",
@@ -39,9 +32,8 @@ const SideMenuCMS = (props: Props) => {
       subMenu: [],
     },
     {
-      text: "My Restaurant",
-      icon: <HiMiniBuildingLibrary />
-      ,
+      text: "Restaurant",
+      icon: <HiMiniBuildingLibrary />,
       url: `/restaurant`,
       subMenu: [],
     },
@@ -81,18 +73,19 @@ const SideMenuCMS = (props: Props) => {
             <div key={key}>
               {!item.subMenu ? (
                 <Link href={item.url}>
-                  <Row gap={2} className={`${styleText} ${pathname == item.url ? "!text-main !bg-white font-semibold shadow-sm" : ""}`}>
+                  <Row
+                    gap={2}
+                    className={`${styleText} ${pathname == item.url ? "!bg-white font-semibold !text-main shadow-sm" : ""}`}
+                  >
                     <div className="text-xl">{item.icon}</div>
-                    <div>
-                      {item.text}
-                    </div>
+                    <div>{item.text}</div>
                   </Row>
                 </Link>
               ) : (
                 <Column>
                   <Link
                     href={item.url}
-                    className={`${styleText} ${pathname == item.url ? "!text-main !bg-white font-semibold shadow-sm" : ""}`}
+                    className={`${styleText} ${pathname == item.url ? "!bg-white font-semibold !text-main shadow-sm" : ""}`}
                   >
                     <Row gap={2}>
                       <div className="text-xl">{item.icon}</div>
@@ -121,9 +114,7 @@ const SideMenuCMS = (props: Props) => {
                 <div className="text-xl">
                   <RiAccountBoxFill />
                 </div>
-                <div>
-                  My Account
-                </div>
+                <div>My Account</div>
               </Row>
             </Link>
           </div>
