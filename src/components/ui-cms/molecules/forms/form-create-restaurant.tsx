@@ -9,6 +9,7 @@ import { FaImage } from "react-icons/fa";
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { useForm, Controller } from "react-hook-form";
 import Image from "next/image";
+import { shareFunctionUtils } from "~/utils/share-funtion";
 
 type Props = {};
 
@@ -26,45 +27,44 @@ const FormCreateRestaurant = (props: Props) => {
   const fileInputUploadLogoRef = React.createRef<HTMLInputElement>();
   const fileInputUploadCoverRef = React.createRef<HTMLInputElement>();
 
-  const handleLogoImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    const reader = new FileReader();
 
-    reader.onload = () => {
-      setLogoImage(reader.result as string);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>, type: "LOGO" | "COVER") => {
+    if (type === "LOGO") {
+      shareFunctionUtils.handleImageChange(e, (file) => setLogoImage(file))
+    }
+    if (type === "COVER") {
+      shareFunctionUtils.handleImageChange(e, (file) => setCoverImage(file))
     }
   };
 
-  const handleCoverImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    const reader = new FileReader();
+  const handleButtonClickUpload = (type: "LOGO" | "COVER") => {
+    if (type === 'LOGO') {
+      if (fileInputUploadLogoRef.current) {
+        fileInputUploadLogoRef.current.click();
+      }
+    }
+    if (type === 'COVER') {
+      if (fileInputUploadCoverRef.current) {
+        fileInputUploadCoverRef.current.click();
+      }
+    }
+  };
 
-    reader.onload = () => {
-      setCoverImage(reader.result as string);
-    };
 
-    if (file) {
-      reader.readAsDataURL(file);
+
+  const onSubmitForm = (data: FormValues) => {
+    const payload = {
+      ...data,
+      profileImage: logoImage,
+      coverImage: coverImage
     }
-  };
-  const handleButtonClickUploadLogImage = () => {
-    if (fileInputUploadLogoRef.current) {
-      fileInputUploadLogoRef.current.click();
-    }
-  };
-  const handleButtonClickUploadCoverImage = () => {
-    if (fileInputUploadCoverRef.current) {
-      fileInputUploadCoverRef.current.click();
-    }
-  };
+    console.log(payload)
+    return
+  }
 
   return (
     <>
-      <form onSubmit={handleSubmit((data) => console.log(data))}>
+      <form onSubmit={handleSubmit((data) => onSubmitForm(data))}>
         <Column gap={3}>
           <div className="relative mb-20  h-[300px] w-full rounded-xl bg-gray-300">
             {coverImage ? (
@@ -76,10 +76,10 @@ const FormCreateRestaurant = (props: Props) => {
                 className="rounded-xl"
               />
             ) : ''}
-            <div className="absolute right-4 top-3 cursor-pointer" onClick={handleButtonClickUploadCoverImage}>
+            <div className="absolute right-4 top-3 cursor-pointer" onClick={() => handleButtonClickUpload("COVER")}>
               <input
                 type="file"
-                onChange={handleCoverImageChange}
+                onChange={(e) => handleImageChange(e, "COVER")}
                 className="hidden"
                 ref={fileInputUploadCoverRef}
               />
@@ -88,10 +88,10 @@ const FormCreateRestaurant = (props: Props) => {
               </span>
             </div>
             <div className="absolute -bottom-12 left-6 flex h-36 w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-gray-500 bg-gray-400">
-              <Column className="items-center" onClick={handleButtonClickUploadLogImage}>
+              <Column className="items-center" onClick={() => handleButtonClickUpload("LOGO")}>
                 <input
                   type="file"
-                  onChange={handleLogoImageChange}
+                  onChange={(e) => handleImageChange(e, "LOGO")}
                   className="hidden"
                   ref={fileInputUploadLogoRef}
                 />
