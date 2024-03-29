@@ -22,9 +22,11 @@ type FormValues = {
 const FormCreateRestaurant = (props: Props) => {
   const { handleSubmit, control } = useForm<FormValues>();
   const [logoImage, setLogoImage] = useState("");
-  const fileInputRef = React.createRef<HTMLInputElement>();
+  const [coverImage, setCoverImage] = useState("");
+  const fileInputUploadLogoRef = React.createRef<HTMLInputElement>();
+  const fileInputUploadCoverRef = React.createRef<HTMLInputElement>();
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleLogoImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const reader = new FileReader();
 
@@ -36,9 +38,27 @@ const FormCreateRestaurant = (props: Props) => {
       reader.readAsDataURL(file);
     }
   };
-  const handleButtonClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
+
+  const handleCoverImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setCoverImage(reader.result as string);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+  const handleButtonClickUploadLogImage = () => {
+    if (fileInputUploadLogoRef.current) {
+      fileInputUploadLogoRef.current.click();
+    }
+  };
+  const handleButtonClickUploadCoverImage = () => {
+    if (fileInputUploadCoverRef.current) {
+      fileInputUploadCoverRef.current.click();
     }
   };
 
@@ -47,16 +67,33 @@ const FormCreateRestaurant = (props: Props) => {
       <form onSubmit={handleSubmit((data) => console.log(data))}>
         <Column gap={3}>
           <div className="relative mb-20  h-[300px] w-full rounded-xl bg-gray-300">
-            <div className="absolute right-4 top-3 cursor-pointer">
-              <MdOutlineCloudUpload size={30} />
+            {coverImage ? (
+              <Image
+                src={coverImage}
+                alt=""
+                fill
+                style={{ objectFit: 'cover' }}
+                className="rounded-xl"
+              />
+            ) : ''}
+            <div className="absolute right-4 top-3 cursor-pointer" onClick={handleButtonClickUploadCoverImage}>
+              <input
+                type="file"
+                onChange={handleCoverImageChange}
+                className="hidden"
+                ref={fileInputUploadCoverRef}
+              />
+              <span className={`${coverImage ? 'text-white hover:text-main' : ''}`}>
+                <MdOutlineCloudUpload size={30} />
+              </span>
             </div>
             <div className="absolute -bottom-12 left-6 flex h-36 w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-gray-500 bg-gray-400">
-              <Column className="items-center" onClick={handleButtonClick}>
+              <Column className="items-center" onClick={handleButtonClickUploadLogImage}>
                 <input
                   type="file"
-                  onChange={handleImageChange}
+                  onChange={handleLogoImageChange}
                   className="hidden"
-                  ref={fileInputRef}
+                  ref={fileInputUploadLogoRef}
                 />
                 {logoImage ? (
                   <Image

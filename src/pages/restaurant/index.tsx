@@ -301,7 +301,7 @@ const RestaurantPage = ({}) => {
             </Column>
           </div>
         ) : (
-          <Column gap={3}>
+          <Column gap={5}>
             <h1 className="text-3xl font-bold">Create Restaurant</h1>
             <FormCreateRestaurant />
           </Column>
