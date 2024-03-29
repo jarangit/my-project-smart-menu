@@ -4,10 +4,11 @@ import Grid from "@ui-center/molecules/grid";
 import Row from "@ui-center/molecules/row";
 import Button from "@ui-cms/atoms/button";
 import Input from "@ui-cms/atoms/input";
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import { FaImage } from "react-icons/fa";
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { useForm, Controller } from "react-hook-form";
+import Image from "next/image";
 
 type Props = {};
 
@@ -20,6 +21,26 @@ type FormValues = {
 };
 const FormCreateRestaurant = (props: Props) => {
   const { handleSubmit, control } = useForm<FormValues>();
+  const [logoImage, setLogoImage] = useState("");
+  const fileInputRef = React.createRef<HTMLInputElement>();
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setLogoImage(reader.result as string);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   return (
     <>
@@ -29,10 +50,27 @@ const FormCreateRestaurant = (props: Props) => {
             <div className="absolute right-4 top-3 cursor-pointer">
               <MdOutlineCloudUpload size={30} />
             </div>
-            <div className="absolute -bottom-12 left-6 flex h-36 w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border-4 border-gray-500 bg-gray-400">
-              <Column className="items-center">
-                <FaImage size={50} />
-                <div>Upload Logo</div>
+            <div className="absolute -bottom-12 left-6 flex h-36 w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-gray-500 bg-gray-400">
+              <Column className="items-center" onClick={handleButtonClick}>
+                <input
+                  type="file"
+                  onChange={handleImageChange}
+                  className="hidden"
+                  ref={fileInputRef}
+                />
+                {logoImage ? (
+                  <Image
+                    src={logoImage}
+                    alt=""
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                ) : (
+                  <Column className="items-center">
+                    <FaImage size={50} />
+                    <div>Upload Logo</div>
+                  </Column>
+                )}
               </Column>
             </div>
           </div>
