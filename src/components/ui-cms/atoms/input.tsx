@@ -4,18 +4,39 @@ import React, { InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   title?: string;
+  isRequired?: boolean;
+  errorMessage?: string;
+  isError?: boolean;
 }
 
-const Input = ({ title, ...props }: InputProps) => {
+const Input = ({
+  title,
+  isError,
+  isRequired,
+  errorMessage,
+  ...props
+}: InputProps) => {
   return (
     <div>
       <label>
-        <Column gap={0}>
-          {title && <div className="font-semibold text-gray-500">{title}</div>}
+        <Column gap={0} className="relative border">
+          {title && (
+            <div className="font-semibold text-gray-500">
+              {title}
+              <span className={`${isRequired && "text-red-600"} test-red-600`}>
+                *
+              </span>
+            </div>
+          )}
           <input
             {...props}
-            className="w-full  rounded-md border-gray-400 bg-transparent p-2 px-3 outline-main"
+            className={`
+            ${isError ? "border-red-600" : ""}
+            w-full  rounded-md border-gray-400 bg-transparent p-2 px-3 outline-main`}
           />
+          <div className="absolute -bottom-5 text-red-600">
+            {errorMessage && isError ? errorMessage : ""}
+          </div>
         </Column>
       </label>
     </div>
