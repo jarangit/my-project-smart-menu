@@ -21,46 +21,51 @@ type FormValues = {
   lineId: string;
 };
 const FormCreateRestaurant = (props: Props) => {
-  const { handleSubmit, control } = useForm<FormValues>();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormValues>();
   const [logoImage, setLogoImage] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const fileInputUploadLogoRef = React.createRef<HTMLInputElement>();
   const fileInputUploadCoverRef = React.createRef<HTMLInputElement>();
 
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>, type: "LOGO" | "COVER") => {
+  const handleImageChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    type: "LOGO" | "COVER",
+  ) => {
     if (type === "LOGO") {
-      shareFunctionUtils.handleImageChange(e, (file) => setLogoImage(file))
+      shareFunctionUtils.handleImageChange(e, (file) => setLogoImage(file));
     }
     if (type === "COVER") {
-      shareFunctionUtils.handleImageChange(e, (file) => setCoverImage(file))
+      shareFunctionUtils.handleImageChange(e, (file) => setCoverImage(file));
     }
   };
 
   const handleButtonClickUpload = (type: "LOGO" | "COVER") => {
-    if (type === 'LOGO') {
+    if (type === "LOGO") {
       if (fileInputUploadLogoRef.current) {
         fileInputUploadLogoRef.current.click();
       }
     }
-    if (type === 'COVER') {
+    if (type === "COVER") {
       if (fileInputUploadCoverRef.current) {
         fileInputUploadCoverRef.current.click();
       }
     }
   };
 
-
-
   const onSubmitForm = (data: FormValues) => {
+    console.log(errors)
     const payload = {
       ...data,
       profileImage: logoImage,
-      coverImage: coverImage
-    }
-    console.log(payload)
-    return
-  }
+      coverImage: coverImage,
+    };
+    console.log(payload);
+    return;
+  };
 
   return (
     <>
@@ -72,23 +77,33 @@ const FormCreateRestaurant = (props: Props) => {
                 src={coverImage}
                 alt=""
                 fill
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: "cover" }}
                 className="rounded-xl"
               />
-            ) : ''}
-            <div className="absolute right-4 top-3 cursor-pointer" onClick={() => handleButtonClickUpload("COVER")}>
+            ) : (
+              ""
+            )}
+            <div
+              className="absolute right-4 top-3 cursor-pointer"
+              onClick={() => handleButtonClickUpload("COVER")}
+            >
               <input
                 type="file"
                 onChange={(e) => handleImageChange(e, "COVER")}
                 className="hidden"
                 ref={fileInputUploadCoverRef}
               />
-              <span className={`${coverImage ? 'text-white hover:text-main' : ''}`}>
+              <span
+                className={`${coverImage ? "text-white hover:text-main" : ""}`}
+              >
                 <MdOutlineCloudUpload size={30} />
               </span>
             </div>
             <div className="absolute -bottom-12 left-6 flex h-36 w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-gray-500 bg-gray-400">
-              <Column className="items-center" onClick={() => handleButtonClickUpload("LOGO")}>
+              <Column
+                className="items-center"
+                onClick={() => handleButtonClickUpload("LOGO")}
+              >
                 <input
                   type="file"
                   onChange={(e) => handleImageChange(e, "LOGO")}
@@ -111,16 +126,22 @@ const FormCreateRestaurant = (props: Props) => {
               </Column>
             </div>
           </div>
-          <Grid gap={6} className="grid-cols-1 gap-y-2 md:grid-cols-2">
+          <Grid gap={6} className="grid-cols-1 gap-y-6 md:grid-cols-2">
             <Controller
               control={control}
               name="name"
+              rules={{
+                required: "Please enter",
+              }}
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Input
                   onChange={onChange}
                   title="Restaurant name"
                   type="text"
                   placeholder="Restaurant name"
+                  isRequired
+                  isError={errors?.name ? true : false}
+                  errorMessage={errors.name?.message}
                 />
               )}
             />
