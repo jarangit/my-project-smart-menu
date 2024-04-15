@@ -49,7 +49,7 @@ const mockDataUpdate = {
   googleMapUrl: "google-map.url",
   phone: "0882266023",
 };
-const RestaurantPage = ({}) => {
+const RestaurantPage = ({ }) => {
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -88,6 +88,7 @@ const RestaurantPage = ({}) => {
   });
 
   const onCreateRestaurant = async (data: any) => {
+
     try {
       await createRestaurantMutation(data);
       await refetch();
@@ -124,7 +125,7 @@ const RestaurantPage = ({}) => {
     //       loadingDataCat,
     //   ),
     // );
-
+    // console.log(restaurantData)
     return;
   }, [
     loadingCreateRestaurant,
@@ -141,23 +142,23 @@ const RestaurantPage = ({}) => {
           <div>
             <div className="relative">
               <div className="relative mb-36 h-[450px] w-full overflow-hidden rounded-lg drop-shadow-lg">
-                {/* <Image
-                  src={restaurantData.coverImage as ""}
+                <Image
+                  src={restaurantData.coverImageUrl as ""}
                   alt=""
                   fill
                   style={{ objectFit: "cover" }}
-                /> */}
+                />
               </div>
               <Row className="absolute -bottom-32 w-full !items-end justify-between">
                 <Column gap={4} className="">
                   <div className="pl-6">
                     <div className="relative h-[200px] w-[200px] overflow-hidden rounded-full border-2 drop-shadow-lg">
-                      {/* <Image
+                      <Image
                       src={restaurantData.profileImageUrl as ""}
                       alt=""
                       fill
                       style={{ objectFit: "cover" }}
-                    /> */}
+                    />
                     </div>
                   </div>
                   <div className="text-2xl font-bold uppercase">
@@ -207,10 +208,10 @@ const RestaurantPage = ({}) => {
                 <Row gap={4}>
                   {dataCatApi && dataCatApi.length
                     ? dataCatApi.map((item, key) => (
-                        <div key={key}>
-                          <Text value={`${item.name} (${item.menus.length})`} />
-                        </div>
-                      ))
+                      <div key={key}>
+                        <Text value={`${item.name} (${item.menus.length})`} />
+                      </div>
+                    ))
                     : ""}
                 </Row>
               </Column>
@@ -220,21 +221,21 @@ const RestaurantPage = ({}) => {
                 <Row gap={4} className="flex-wrap divide-x-2 divide-green-600">
                   {restaurantData?.menus && restaurantData?.menus?.length
                     ? restaurantData?.menus?.map((item, key) => (
-                        <div key={key}>
-                          <Link href={`/restaurant/menu/${item.id}`}>
-                            <div className="w-fit overflow-hidden rounded-lg">
-                              {/* <Image
+                      <div key={key}>
+                        <Link href={`/restaurant/menu/${item.id}`}>
+                          <div className="w-fit overflow-hidden rounded-lg">
+                            {/* <Image
                               src={item.imageUrl}
                               alt=""
                               width={250}
                               height={250}
                             /> */}
-                            </div>
-                            <Text value={item.name} />
-                            <Text value={`${item.price} BTH`} />
-                          </Link>
-                        </div>
-                      ))
+                          </div>
+                          <Text value={item.name} />
+                          <Text value={`${item.price} BTH`} />
+                        </Link>
+                      </div>
+                    ))
                     : ""}
                   <div></div>
                 </Row>
@@ -244,20 +245,20 @@ const RestaurantPage = ({}) => {
                 <Row gap={4} className="flex-wrap divide-x-2 divide-green-600">
                   {restaurantData?.meats && restaurantData?.meats?.length
                     ? restaurantData?.meats?.map((item, key) => (
-                        <div key={key}>
-                          <Link href={`/restaurant/menu/${item.id}`}>
-                            <div className="w-fit overflow-hidden rounded-lg">
-                              {/* <Image
+                      <div key={key}>
+                        <Link href={`/restaurant/menu/${item.id}`}>
+                          <div className="w-fit overflow-hidden rounded-lg">
+                            {/* <Image
                               src={item.imageUrl}
                               alt=""
                               width={250}
                               height={250}
                             /> */}
-                            </div>
-                            <Text value={item.name} />
-                          </Link>
-                        </div>
-                      ))
+                          </div>
+                          <Text value={item.name} />
+                        </Link>
+                      </div>
+                    ))
                     : ""}
                   <div></div>
                 </Row>
@@ -267,20 +268,20 @@ const RestaurantPage = ({}) => {
                 <Row gap={4} className="flex-wrap divide-x-2 divide-green-600">
                   {restaurantData?.toppings && restaurantData?.toppings?.length
                     ? restaurantData?.toppings?.map((item, key) => (
-                        <div key={key}>
-                          <Link href={`/restaurant/menu/${item.id}`}>
-                            <div className="w-fit overflow-hidden rounded-lg">
-                              {/* <Image
+                      <div key={key}>
+                        <Link href={`/restaurant/menu/${item.id}`}>
+                          <div className="w-fit overflow-hidden rounded-lg">
+                            {/* <Image
                               src={item.imageUrl}
                               alt=""
                               width={250}
                               height={250}
                             /> */}
-                            </div>
-                            <Text value={item.name} />
-                          </Link>
-                        </div>
-                      ))
+                          </div>
+                          <Text value={item.name} />
+                        </Link>
+                      </div>
+                    ))
                     : ""}
                   <div></div>
                 </Row>
@@ -303,7 +304,7 @@ const RestaurantPage = ({}) => {
         ) : (
           <Column gap={5}>
             <h1 className="text-3xl font-bold">Create Restaurant</h1>
-            <FormCreateRestaurant />
+            <FormCreateRestaurant _onSubmit={(e) => onCreateRestaurant(e)} />
           </Column>
         )}
       </div>

@@ -66,8 +66,8 @@ model Restaurant {
     id              String     @id @default(cuid())
     name            String?
     profileImageUrl String?
-    coverImage      String?
-    facebookUrl        String?
+    coverImageUrl   String?
+    facebookUrl     String?
     lineId          String?
     googleMapUrl    String?
     phone           String?
@@ -91,9 +91,9 @@ model Category {
 }
 
 model CategoryStore {
-    id           Int            @id @default(autoincrement())
-    name         String
-    createdAt    DateTime       @default(now())
+    id        Int      @id @default(autoincrement())
+    name      String
+    createdAt DateTime @default(now())
 }
 
 model Menu {
@@ -147,11 +147,11 @@ model Topping {
 }
 
 model ToppingStore {
-    id              Int            @id @default(autoincrement())
-    name            String
-    price           Int
-    imageUrl        String?
-    createdAt       DateTime       @default(now())
+    id        Int      @id @default(autoincrement())
+    name      String
+    price     Int
+    imageUrl  String?
+    createdAt DateTime @default(now())
 }
 
 model ImageStores {

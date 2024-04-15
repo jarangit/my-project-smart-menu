@@ -1,17 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/ban-types */
 import Column from "@ui-center/molecules/column";
 import Grid from "@ui-center/molecules/grid";
 import Row from "@ui-center/molecules/row";
 import Button from "@ui-cms/atoms/button";
 import Input from "@ui-cms/atoms/input";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useCallback, useState } from "react";
 import { FaImage } from "react-icons/fa";
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { useForm, Controller } from "react-hook-form";
 import Image from "next/image";
 import { shareFunctionUtils } from "~/utils/share-funtion";
+import axios from "axios";
+import { api } from "~/utils/api";
 
-type Props = {};
+type Props = {
+  _onSubmit:(data:any) => void
+};
 
 type FormValues = {
   name: string;
@@ -20,26 +26,64 @@ type FormValues = {
   phone: string;
   lineId: string;
 };
-const FormCreateRestaurant = (props: Props) => {
+const FormCreateRestaurant = ({_onSubmit}: Props) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm<FormValues>();
-  const [logoImage, setLogoImage] = useState("");
-  const [coverImage, setCoverImage] = useState("");
+  const [presignedUrl, setPresignedUrl] = useState<string | null>(null);
+  const [logoImage, setLogoImage] = useState({
+    rawFile: null,
+    preview: '',
+    uploadUrl: ''
+  });
+  const [coverImage, setCoverImage] = useState({
+    rawFile: null,
+    preview: '',
+    uploadUrl: ''
+  });
   const fileInputUploadLogoRef = React.createRef<HTMLInputElement>();
   const fileInputUploadCoverRef = React.createRef<HTMLInputElement>();
+  const apiUtils = api.useUtils()
+  const { mutateAsync: fetchPresignedUrls } =
+    api.s3.getStandardUploadPresignedUrl.useMutation();
+  const createImageStore = api.imageStores.create.useMutation()
+  const onGenerateURL = async (file: File) => {
+    let result = ''
+    await fetchPresignedUrls({
+      key: file.name,
+      type: 'menu',
+    })
+      .then((url) => {
 
-  const handleImageChange = (
+        result = url
+      })
+      .catch((err) => console.error(err));
+
+    return result
+  }
+  const handleImageChange = async (
     e: ChangeEvent<HTMLInputElement>,
     type: "LOGO" | "COVER",
   ) => {
     if (type === "LOGO") {
-      shareFunctionUtils.handleImageChange(e, (file) => setLogoImage(file));
+      const rawFile = e.target.files?.[0] as File
+      const url: string = await onGenerateURL(rawFile)
+      shareFunctionUtils.handleImageChange(e, (file) => setLogoImage({
+        rawFile: rawFile as unknown as null,
+        preview: file,
+        uploadUrl: url
+      }));
     }
     if (type === "COVER") {
-      shareFunctionUtils.handleImageChange(e, (file) => setCoverImage(file));
+      const rawFile: File = e.target.files?.[0] as File
+      const url: string = await onGenerateURL(rawFile)
+      shareFunctionUtils.handleImageChange(e, (file) => setCoverImage({
+        rawFile: rawFile as unknown as null,
+        preview: file,
+        uploadUrl: url
+      }));
     }
   };
 
@@ -55,15 +99,50 @@ const FormCreateRestaurant = (props: Props) => {
       }
     }
   };
+  const onUploadImage = useCallback(async ({
+    file,
+    presignedUrl,
+    typeImage
+  }: { file: File, presignedUrl: string, typeImage: string }) => {
+    if (presignedUrl) {
+      await axios
+        .put(presignedUrl, file.slice(), {
+          headers: { "Content-Type": file.type },
+        })
+        .then((response) => {
+          // console.log(response);
+          // console.log("Successfully uploaded ", file.name);
+        })
+        .catch((err) => console.error(err));
+      void createImageStore.mutateAsync({
+        type: typeImage,
+        key: file.name,
+        url: file.name
+      })
+      await apiUtils.s3.getObjects.invalidate();
+      return file.name
+    }
+  }, [, apiUtils.s3.getObjects]);
 
-  const onSubmitForm = (data: FormValues) => {
-    console.log(errors)
+  const onSubmitForm = async (data: FormValues) => {
+
+    const logoUrl = await onUploadImage({
+      file: logoImage.rawFile as unknown as File,
+      presignedUrl: logoImage.uploadUrl,
+      typeImage: "logo",
+    })
+    const coverUrl = await onUploadImage({
+      file: coverImage.rawFile as unknown as File,
+      presignedUrl: coverImage.uploadUrl,
+      typeImage: "cover",
+    })
     const payload = {
       ...data,
-      profileImage: logoImage,
-      coverImage: coverImage,
+      profileImageName: logoUrl,
+      coverImageName: coverUrl,
     };
     console.log(payload);
+    void _onSubmit(payload)
     return;
   };
 
@@ -72,9 +151,9 @@ const FormCreateRestaurant = (props: Props) => {
       <form onSubmit={handleSubmit((data) => onSubmitForm(data))}>
         <Column gap={3}>
           <div className="relative mb-20  h-[300px] w-full rounded-xl bg-gray-300">
-            {coverImage ? (
+            {coverImage.preview ? (
               <Image
-                src={coverImage}
+                src={coverImage.preview}
                 alt=""
                 fill
                 style={{ objectFit: "cover" }}
@@ -94,7 +173,7 @@ const FormCreateRestaurant = (props: Props) => {
                 ref={fileInputUploadCoverRef}
               />
               <span
-                className={`${coverImage ? "text-white hover:text-main" : ""}`}
+                className={`${coverImage.preview ? "text-white hover:text-main" : ""}`}
               >
                 <MdOutlineCloudUpload size={30} />
               </span>
@@ -110,9 +189,9 @@ const FormCreateRestaurant = (props: Props) => {
                   className="hidden"
                   ref={fileInputUploadLogoRef}
                 />
-                {logoImage ? (
+                {logoImage.preview ? (
                   <Image
-                    src={logoImage}
+                    src={logoImage.preview}
                     alt=""
                     fill
                     style={{ objectFit: "cover" }}

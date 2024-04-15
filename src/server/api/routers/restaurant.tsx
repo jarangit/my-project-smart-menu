@@ -5,6 +5,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
+import { env } from "~/env";
 
 export const restaurantRouter = createTRPCRouter({
   getOne: publicProcedure
@@ -27,37 +28,36 @@ export const restaurantRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
-        profileImageUrl: z.string(),
-        coverImage: z.string(),
-        facebookUrl: z.string(),
-        lineId: z.string(),
-        googleMapUrl: z.string(),
-        phone: z.string(),
+        profileImageName: z.string().optional(),
+        coverImageName: z.string().optional(),
+        facebookUrl: z.string().optional(),
+        lineId: z.string().optional(),
+        googleMapUrl: z.string().optional(),
+        phone: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session?.user.id;
       const {
         name,
-        profileImageUrl,
+        profileImageName,
         facebookUrl,
         lineId,
         googleMapUrl,
         phone,
-        coverImage,
+        coverImageName,
       } = input;
       const foundUser = await ctx.db.user.findUnique({
         where: {
           id: userId,
         },
       });
-      console.log(foundUser);
       if (foundUser) {
         const restaurant = await ctx.db.restaurant.create({
           data: {
             name,
-            profileImageUrl,
-            coverImage,
+            profileImageUrl:`${env.DOMAIN_IMAGE_AWS}/${profileImageName}`,
+            coverImageUrl:`${env.DOMAIN_IMAGE_AWS}/${coverImageName}`,
             facebookUrl,
             lineId,
             googleMapUrl,
