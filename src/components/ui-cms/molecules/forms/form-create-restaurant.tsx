@@ -16,7 +16,7 @@ import axios from "axios";
 import { api } from "~/utils/api";
 
 type Props = {
-  _onSubmit:(data:any) => void
+  _onSubmit: (data: any) => void
 };
 
 type FormValues = {
@@ -25,8 +25,10 @@ type FormValues = {
   googleMapUrl: string;
   phone: string;
   lineId: string;
+  email: string;
+  website: string;
 };
-const FormCreateRestaurant = ({_onSubmit}: Props) => {
+const FormCreateRestaurant = ({ _onSubmit }: Props) => {
   const {
     handleSubmit,
     control,
@@ -269,6 +271,30 @@ const FormCreateRestaurant = ({_onSubmit}: Props) => {
                   title="Phone"
                   type="text"
                   placeholder="Phone"
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="email"
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <Input
+                  onChange={onChange}
+                  title="Email"
+                  type="text"
+                  placeholder="Email"
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="website"
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <Input
+                  onChange={onChange}
+                  title="Website"
+                  type="text"
+                  placeholder="Website"
                 />
               )}
             />

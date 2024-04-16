@@ -64,13 +64,15 @@ model VerificationToken {
 
 model Restaurant {
     id              String     @id @default(cuid())
-    name            String?
+    name            String?    @db.VarChar(30)
     profileImageUrl String?
     coverImageUrl   String?
     facebookUrl     String?
-    lineId          String?
+    lineId          String?    @db.VarChar(30)
     googleMapUrl    String?
-    phone           String?
+    phone           String?    @db.VarChar(30)
+    website         String?    @db.VarChar(30)
+    email           String?    @db.VarChar(30)
     owner           User       @relation(fields: [ownerId], references: [id])
     ownerId         String     @unique // relation scalar field (used in the `@relation` attribute above)
     menus           Menu[]
