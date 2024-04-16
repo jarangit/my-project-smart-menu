@@ -112,8 +112,8 @@ const FormCreateRestaurant = ({ _onSubmit }: Props) => {
           headers: { "Content-Type": file.type },
         })
         .then((response) => {
-          // console.log(response);
-          // console.log("Successfully uploaded ", file.name);
+          console.log(response);
+          console.log("Successfully uploaded ", file.name);
         })
         .catch((err) => console.error(err));
       void createImageStore.mutateAsync({
@@ -140,8 +140,8 @@ const FormCreateRestaurant = ({ _onSubmit }: Props) => {
     })
     const payload = {
       ...data,
-      profileImageName: logoUrl,
-      coverImageName: coverUrl,
+      profileImage: logoUrl,
+      coverImage: coverUrl,
     };
     console.log(payload);
     void _onSubmit(payload)

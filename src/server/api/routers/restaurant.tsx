@@ -28,8 +28,8 @@ export const restaurantRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
-        profileImageName: z.string().optional(),
-        coverImageName: z.string().optional(),
+        profileImage: z.string().optional(),
+        coverImage: z.string().optional(),
         facebookUrl: z.string().optional(),
         lineId: z.string().optional(),
         googleMapUrl: z.string().optional(),
@@ -41,8 +41,8 @@ export const restaurantRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session?.user.id;
       const {
-        profileImageName,
-        coverImageName,
+        profileImage,
+        coverImage,
       } = input;
       const foundUser = await ctx.db.user.findUnique({
         where: {
@@ -53,8 +53,8 @@ export const restaurantRouter = createTRPCRouter({
         const restaurant = await ctx.db.restaurant.create({
           data: {
             ...input,
-            profileImageUrl: `${env.DOMAIN_IMAGE_AWS}/${profileImageName}`,
-            coverImageUrl: `${env.DOMAIN_IMAGE_AWS}/${coverImageName}`,
+            profileImage: `${env.DOMAIN_IMAGE_AWS}/${profileImage}`,
+            coverImage: `${env.DOMAIN_IMAGE_AWS}/${coverImage}`,
             ownerId: foundUser.id,
           },
         });

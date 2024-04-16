@@ -65,8 +65,8 @@ model VerificationToken {
 model Restaurant {
     id              String     @id @default(cuid())
     name            String?    @db.VarChar(30)
-    profileImageUrl String?
-    coverImageUrl   String?
+    profileImage String?
+    coverImage   String?
     facebookUrl     String?
     lineId          String?    @db.VarChar(30)
     googleMapUrl    String?

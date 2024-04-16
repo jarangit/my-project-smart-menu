@@ -21,6 +21,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useReducer, useState } from "react";
+import { FaPhone } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { TbWorld } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { setShowLoading } from "~/app-state/redux/features/ui-state.slice";
 import { api } from "~/utils/api";
@@ -115,15 +118,15 @@ const RestaurantTemplate = (props: Props) => {
   };
 
   useEffect(() => {
-    dispatch(
-      setShowLoading(
-        loadingCreateRestaurant ||
-          loadingDataRestaurant ||
-          loadingDeleteRestaurant ||
-          loadingUpdateRestaurant ||
-          loadingDataCat,
-      ),
-    );
+    // dispatch(
+    //   setShowLoading(
+    //     loadingCreateRestaurant ||
+    //     loadingDataRestaurant ||
+    //     loadingDeleteRestaurant ||
+    //     loadingUpdateRestaurant ||
+    //     loadingDataCat,
+    //   ),
+    // );
     return;
   }, [
     loadingCreateRestaurant,
@@ -141,34 +144,54 @@ const RestaurantTemplate = (props: Props) => {
             <div className="relative">
               <div className="relative mb-36 h-[450px] w-full overflow-hidden rounded-lg drop-shadow-lg">
                 <Image
-                  src={restaurantData.coverImageUrl as ""}
+                  src={restaurantData.coverImage as ""}
                   alt=""
                   fill
                   style={{ objectFit: "cover" }}
                 />
               </div>
-              <Row className="absolute -bottom-32 w-full !items-center justify-between border">
-                <Row gap={4} className="">
+              <Row className="absolute -bottom-32 w-full !items-center justify-between ">
+                <Row gap={4} className="!items-end">
                   <div className="pl-6">
                     <div className="relative h-[200px] w-[200px] overflow-hidden rounded-full border-2 drop-shadow-lg">
                       <Image
-                        src={restaurantData.profileImageUrl as ""}
+                        src={restaurantData.profileImage as ""}
                         alt=""
                         fill
                         style={{ objectFit: "cover" }}
                       />
                     </div>
                   </div>
-                  <Column>
-                    <Text value={restaurantData.name as ""} />
-                    <Row>
-                      <Text value={restaurantData.phone as ""} />
-                      <Text value={restaurantData.email as ""} />
-                    </Row>
-                    <Text value={restaurantData.website as ""} />
+                  <Column gap={2} className="">
+                    <Text value={restaurantData.name as ""} className="uppercase font-bold text-2xl" />
+                    <Column gap={0}>
+                      <Row className="text-gray-400 font-medium" gap={3}>
+                        <Row>
+                          <MdEmail />
+                          <Text value={restaurantData.email as ""} className="" />
+                        </Row>
+                        <Row>
+                          <TbWorld />
+                          <Text value={restaurantData.website as ""} className="" />
+                        </Row>
+                      </Row>
+                      <Row className="text-gray-400 font-medium">
+                        <FaPhone />
+                        <Text value={restaurantData.phone as ""} className="" />
+                      </Row>
+                    </Column>
                   </Column>
                 </Row>
-                <div>
+                <Row>
+                  <Button
+                    // onClick={() =>
+                    //   deleteRestaurantMutation({
+                    //     id: restaurantData.id,
+                    //   })
+                    // }
+                  >
+                    Edit
+                  </Button>
                   <Button
                     onClick={() =>
                       deleteRestaurantMutation({
@@ -178,7 +201,7 @@ const RestaurantTemplate = (props: Props) => {
                   >
                     Delete
                   </Button>
-                </div>
+                </Row>
               </Row>
             </div>
 
@@ -218,10 +241,10 @@ const RestaurantTemplate = (props: Props) => {
                 <Row gap={4}>
                   {dataCatApi && dataCatApi.length
                     ? dataCatApi.map((item, key) => (
-                        <div key={key}>
-                          <Text value={`${item.name} (${item.menus.length})`} />
-                        </div>
-                      ))
+                      <div key={key}>
+                        <Text value={`${item.name} (${item.menus.length})`} />
+                      </div>
+                    ))
                     : ""}
                 </Row>
               </Column>
@@ -231,21 +254,21 @@ const RestaurantTemplate = (props: Props) => {
                 <Row gap={4} className="flex-wrap divide-x-2 divide-green-600">
                   {restaurantData?.menus && restaurantData?.menus?.length
                     ? restaurantData?.menus?.map((item, key) => (
-                        <div key={key}>
-                          <Link href={`/restaurant/menu/${item.id}`}>
-                            <div className="w-fit overflow-hidden rounded-lg">
-                              {/* <Image
+                      <div key={key}>
+                        <Link href={`/restaurant/menu/${item.id}`}>
+                          <div className="w-fit overflow-hidden rounded-lg">
+                            {/* <Image
                               src={item.imageUrl}
                               alt=""
                               width={250}
                               height={250}
                             /> */}
-                            </div>
-                            <Text value={item.name} />
-                            <Text value={`${item.price} BTH`} />
-                          </Link>
-                        </div>
-                      ))
+                          </div>
+                          <Text value={item.name} />
+                          <Text value={`${item.price} BTH`} />
+                        </Link>
+                      </div>
+                    ))
                     : ""}
                   <div></div>
                 </Row>
@@ -255,20 +278,20 @@ const RestaurantTemplate = (props: Props) => {
                 <Row gap={4} className="flex-wrap divide-x-2 divide-green-600">
                   {restaurantData?.meats && restaurantData?.meats?.length
                     ? restaurantData?.meats?.map((item, key) => (
-                        <div key={key}>
-                          <Link href={`/restaurant/menu/${item.id}`}>
-                            <div className="w-fit overflow-hidden rounded-lg">
-                              {/* <Image
+                      <div key={key}>
+                        <Link href={`/restaurant/menu/${item.id}`}>
+                          <div className="w-fit overflow-hidden rounded-lg">
+                            {/* <Image
                               src={item.imageUrl}
                               alt=""
                               width={250}
                               height={250}
                             /> */}
-                            </div>
-                            <Text value={item.name} />
-                          </Link>
-                        </div>
-                      ))
+                          </div>
+                          <Text value={item.name} />
+                        </Link>
+                      </div>
+                    ))
                     : ""}
                   <div></div>
                 </Row>
@@ -278,20 +301,20 @@ const RestaurantTemplate = (props: Props) => {
                 <Row gap={4} className="flex-wrap divide-x-2 divide-green-600">
                   {restaurantData?.toppings && restaurantData?.toppings?.length
                     ? restaurantData?.toppings?.map((item, key) => (
-                        <div key={key}>
-                          <Link href={`/restaurant/menu/${item.id}`}>
-                            <div className="w-fit overflow-hidden rounded-lg">
-                              {/* <Image
+                      <div key={key}>
+                        <Link href={`/restaurant/menu/${item.id}`}>
+                          <div className="w-fit overflow-hidden rounded-lg">
+                            {/* <Image
                               src={item.imageUrl}
                               alt=""
                               width={250}
                               height={250}
                             /> */}
-                            </div>
-                            <Text value={item.name} />
-                          </Link>
-                        </div>
-                      ))
+                          </div>
+                          <Text value={item.name} />
+                        </Link>
+                      </div>
+                    ))
                     : ""}
                   <div></div>
                 </Row>
