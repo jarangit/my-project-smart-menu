@@ -21,8 +21,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useReducer, useState } from "react";
+import { AiTwotoneEdit } from "react-icons/ai";
 import { FaPhone } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+import { IoSettingsSharp } from "react-icons/io5";
+import { MdDelete, MdEmail } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { setShowLoading } from "~/app-state/redux/features/ui-state.slice";
@@ -142,7 +144,7 @@ const RestaurantTemplate = (props: Props) => {
         {restaurantData ? (
           <div>
             <div className="relative">
-              <div className="relative mb-36 h-[450px] w-full overflow-hidden rounded-lg drop-shadow-lg">
+              <div className="relative mb-36 h-[300px] w-full overflow-hidden rounded-lg drop-shadow-lg">
                 <Image
                   src={restaurantData.coverImage as ""}
                   alt=""
@@ -182,17 +184,10 @@ const RestaurantTemplate = (props: Props) => {
                     </Column>
                   </Column>
                 </Row>
-                <Row>
-                  <Button
-                    // onClick={() =>
-                    //   deleteRestaurantMutation({
-                    //     id: restaurantData.id,
-                    //   })
-                    // }
-                  >
-                    Edit
-                  </Button>
-                  <Button
+                <Row gap={3} className="text-xl text-gray-400">
+                  <AiTwotoneEdit />
+
+                  {/* <Button
                     onClick={() =>
                       deleteRestaurantMutation({
                         id: restaurantData.id,
@@ -200,7 +195,8 @@ const RestaurantTemplate = (props: Props) => {
                     }
                   >
                     Delete
-                  </Button>
+                  </Button> */}
+                  <IoSettingsSharp />
                 </Row>
               </Row>
             </div>
